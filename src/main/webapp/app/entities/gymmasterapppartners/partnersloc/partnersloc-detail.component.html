@@ -1,0 +1,64 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="partnersloc">
+            <h2><span>Partnersloc</span> {{ partnersloc.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span>Region</span></dt>
+                <dd>
+                    <span>{{ partnersloc.region }}</span>
+                </dd>
+                <dt><span>Address</span></dt>
+                <dd>
+                    <span>{{ partnersloc.address }}</span>
+                </dd>
+                <dt><span>Postal Code</span></dt>
+                <dd>
+                    <span>{{ partnersloc.postalCode }}</span>
+                </dd>
+                <dt><span>Open Time</span></dt>
+                <dd>
+                    <span>{{ partnersloc.openTime }}</span>
+                </dd>
+                <dt><span>Close Time</span></dt>
+                <dd>
+                    <span>{{ partnersloc.closeTime }}</span>
+                </dd>
+                <dt><span>Poc Name</span></dt>
+                <dd>
+                    <span>{{ partnersloc.pocName }}</span>
+                </dd>
+                <dt><span>Poc No</span></dt>
+                <dd>
+                    <span>{{ partnersloc.pocNo }}</span>
+                </dd>
+                <dt><span>Poc Email</span></dt>
+                <dd>
+                    <span>{{ partnersloc.pocEmail }}</span>
+                </dd>
+                <dt><span>Partners</span></dt>
+                <dd>
+                    <div *ngIf="partnersloc.partnersId">
+                        <a [routerLink]="['/partners', partnersloc.partnersId, 'view']">{{ partnersloc.partnersCompanyName }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/partnersloc', partnersloc.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

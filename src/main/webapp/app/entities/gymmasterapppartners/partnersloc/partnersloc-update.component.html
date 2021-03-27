@@ -1,0 +1,169 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-partnersloc-heading">Create or edit a Partnersloc</h2>
+
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_region">Region</label>
+                    <select class="form-control" name="region" formControlName="region" id="field_region">
+                        <option value="C">C</option>
+                        <option value="E">E</option>
+                        <option value="N">N</option>
+                        <option value="NE">NE</option>
+                        <option value="W">W</option>
+                    </select>
+                    <div *ngIf="editForm.get('region')!.invalid && (editForm.get('region')!.dirty || editForm.get('region')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('region')?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_address">Address</label>
+                    <input type="text" class="form-control" name="address" id="field_address"
+                           formControlName="address"/>
+                    <div *ngIf="editForm.get('address')!.invalid && (editForm.get('address')!.dirty || editForm.get('address')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('address')?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('address')?.errors?.minlength">
+                        This field is required to be at least 3 characters.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('address')?.errors?.maxlength">
+                        This field cannot be longer than 66 characters.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_postalCode">Postal Code</label>
+                    <input type="number" class="form-control" name="postalCode" id="field_postalCode"
+                           formControlName="postalCode"/>
+                    <div *ngIf="editForm.get('postalCode')!.invalid && (editForm.get('postalCode')!.dirty || editForm.get('postalCode')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('postalCode')?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('postalCode')?.errors?.max">
+                            This field cannot be more than 6.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('postalCode')?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_openTime">Open Time</label>
+                    <div class="d-flex">
+                        <input id="field_openTime" type="datetime-local" class="form-control" name="openTime" formControlName="openTime" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                    <div *ngIf="editForm.get('openTime')!.invalid && (editForm.get('openTime')!.dirty || editForm.get('openTime')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('openTime')?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('openTime')?.errors?.ZonedDateTimelocal">
+                            This field should be a date and time.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_closeTime">Close Time</label>
+                    <div class="d-flex">
+                        <input id="field_closeTime" type="datetime-local" class="form-control" name="closeTime" formControlName="closeTime" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                    <div *ngIf="editForm.get('closeTime')!.invalid && (editForm.get('closeTime')!.dirty || editForm.get('closeTime')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('closeTime')?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('closeTime')?.errors?.ZonedDateTimelocal">
+                            This field should be a date and time.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_pocName">Poc Name</label>
+                    <input type="text" class="form-control" name="pocName" id="field_pocName"
+                           formControlName="pocName"/>
+                    <div *ngIf="editForm.get('pocName')!.invalid && (editForm.get('pocName')!.dirty || editForm.get('pocName')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('pocName')?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_pocNo">Poc No</label>
+                    <input type="number" class="form-control" name="pocNo" id="field_pocNo"
+                           formControlName="pocNo"/>
+                    <div *ngIf="editForm.get('pocNo')!.invalid && (editForm.get('pocNo')!.dirty || editForm.get('pocNo')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('pocNo')?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('pocNo')?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_pocEmail">Poc Email</label>
+                    <input type="text" class="form-control" name="pocEmail" id="field_pocEmail"
+                           formControlName="pocEmail"/>
+                    <div *ngIf="editForm.get('pocEmail')!.invalid && (editForm.get('pocEmail')!.dirty || editForm.get('pocEmail')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('pocEmail')?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('pocEmail')?.errors?.pattern">
+                            This field should follow pattern for "Poc Email".
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_partners">Partners</label>
+                    <select class="form-control" id="field_partners" name="partners" formControlName="partnersId">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="partnersOption.id" *ngFor="let partnersOption of partners; trackBy: trackById">{{ partnersOption.companyName }}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

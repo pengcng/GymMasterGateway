@@ -1,0 +1,41 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "com.gymmastergateway.app",
+      "microservicePath": "D:\\Workspace\\gym-master-app-partners"
+    },
+    "jhipsterVersion": "6.10.5",
+    "applicationType": "gateway",
+    "baseName": "gymmastergateway",
+    "packageName": "com.gymmastergateway.app",
+    "packageFolder": "com/gymmastergateway/app",
+    "serverPort": "8080",
+    "authenticationType": "jwt",
+    "cacheProvider": "hazelcast",
+    "enableHibernateCache": false,
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "oracle",
+    "prodDatabaseType": "oracle",
+    "searchEngine": "elasticsearch",
+    "messageBroker": false,
+    "serviceDiscoveryType": "eureka",
+    "buildTool": "maven",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "ZjRlMzNkYzEwYWQxZWJjMjE5ZGI1MGE5ZTA3ODRlMzFjMmExODA3N2EzYjYzODQwMDIyMDEwZTY1YzJjOTU0Yzk3ZjAxOGY3NWQxY2YyYzNhOTBiMjJmZDUwY2IwZjYyOTk0YTVjMjk4ZTQ4ZjMxOGM4Y2QxZTQ5MmU3MzkyZWY=",
+    "embeddableLaunchScript": false,
+    "useSass": true,
+    "clientPackageManager": "npm",
+    "clientFramework": "angularX",
+    "clientTheme": "flatly",
+    "clientThemeVariant": "primary",
+    "creationTimestamp": 1616884314286,
+    "testFrameworks": [],
+    "jhiPrefix": "jhi",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "otherModules": [],
+    "enableTranslation": false,
+    "blueprints": []
+  }
+}

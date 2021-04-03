@@ -39,7 +39,7 @@ export const partnerslocRoute: Routes = [
     path: '',
     component: PartnerslocComponent,
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.USER, Authority.PARTNER],
       defaultSort: 'id,asc',
       pageTitle: 'Partnerslocs',
     },
@@ -52,7 +52,7 @@ export const partnerslocRoute: Routes = [
       partnersloc: PartnerslocResolve,
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.USER, Authority.PARTNER],
       pageTitle: 'Partnerslocs',
     },
     canActivate: [UserRouteAccessService],
@@ -64,7 +64,7 @@ export const partnerslocRoute: Routes = [
       partnersloc: PartnerslocResolve,
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.USER, Authority.PARTNER],
       pageTitle: 'Partnerslocs',
     },
     canActivate: [UserRouteAccessService],
@@ -76,7 +76,7 @@ export const partnerslocRoute: Routes = [
       partnersloc: PartnerslocResolve,
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.USER, Authority.PARTNER],
       pageTitle: 'Partnerslocs',
     },
     canActivate: [UserRouteAccessService],

@@ -1,0 +1,48 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="payment">
+            <h2><span>Payment</span> {{ payment.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span>Payment Mode</span></dt>
+                <dd>
+                    <span>{{ payment.paymentMode }}</span>
+                </dd>
+                <dt><span>Tran Dt</span></dt>
+                <dd>
+                    <span>{{ payment.tranDt }}</span>
+                </dd>
+                <dt><span>Tran Status</span></dt>
+                <dd>
+                    <span>{{ payment.tranStatus }}</span>
+                </dd>
+                <dt><span>Receipt No</span></dt>
+                <dd>
+                    <span>{{ payment.receiptNo }}</span>
+                </dd>
+                <dt><span>Booking</span></dt>
+                <dd>
+                    <div *ngIf="payment.bookingId">
+                        <a [routerLink]="['/booking', payment.bookingId, 'view']">{{ payment.bookingId }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/payment', payment.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

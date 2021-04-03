@@ -13,6 +13,14 @@ import { RouterModule } from '@angular/router';
         loadChildren: () =>
           import('./gymmasterapppartners/partnersloc/partnersloc.module').then(m => m.GymmasterapppartnersPartnerslocModule),
       },
+      {
+        path: 'booking',
+        loadChildren: () => import('./bookingPaymentApp/booking/booking.module').then(m => m.BookingPaymentAppBookingModule),
+      },
+      {
+        path: 'payment',
+        loadChildren: () => import('./bookingPaymentApp/payment/payment.module').then(m => m.BookingPaymentAppPaymentModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

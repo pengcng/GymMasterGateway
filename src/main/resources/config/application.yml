@@ -22,7 +22,7 @@ eureka:
     fetch-registry: true
     register-with-eureka: true
     instance-info-replication-interval-seconds: 10
-    registry-fetch-interval-seconds: 10
+    registry-fetch-interval-seconds: 30
   instance:
     appname: gymmastergateway
     instanceId: gymmastergateway:${spring.application.instance-id:${random.value}}
@@ -38,6 +38,8 @@ eureka:
       git-commit: ${git.commit.id.abbrev:}
       git-branch: ${git.branch:}
 ribbon:
+  ReadTimeout: 60000
+  connection-timeout: 3000
   eureka:
     enabled: true
 # See http://cloud.spring.io/spring-cloud-netflix/spring-cloud-netflix.html
@@ -57,7 +59,7 @@ hystrix:
       execution:
         isolation:
           thread:
-            timeoutInMilliseconds: 10000
+            timeoutInMilliseconds: 60000
 
 management:
   endpoints:

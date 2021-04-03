@@ -1,0 +1,65 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-payment-heading">Create or edit a Payment</h2>
+
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_paymentMode">Payment Mode</label>
+                    <select class="form-control" name="paymentMode" formControlName="paymentMode" id="field_paymentMode">
+                        <option value="CREDIT">CREDIT</option>
+                        <option value="AMEX">AMEX</option>
+                        <option value="DEBIT">DEBIT</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_tranDt">Tran Dt</label>
+                    <div class="d-flex">
+                        <input id="field_tranDt" type="datetime-local" class="form-control" name="tranDt" formControlName="tranDt" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_tranStatus">Tran Status</label>
+                    <select class="form-control" name="tranStatus" formControlName="tranStatus" id="field_tranStatus">
+                        <option value="CANCELLED">CANCELLED</option>
+                        <option value="SUCCESS">SUCCESS</option>
+                        <option value="FAILED">FAILED</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_receiptNo">Receipt No</label>
+                    <input type="text" class="form-control" name="receiptNo" id="field_receiptNo"
+                           formControlName="receiptNo"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_booking">Booking</label>
+                    <select class="form-control" id="field_booking" name="booking" formControlName="bookingId">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="bookingOption.id" *ngFor="let bookingOption of bookings; trackBy: trackById">{{ bookingOption.id }}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

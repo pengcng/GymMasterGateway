@@ -1,0 +1,45 @@
+{
+  "fluentMethods": true,
+  "clientRootFolder": "gymMasterBookingPayment",
+  "relationships": [
+    {
+      "relationshipName": "partnerlogin",
+      "otherEntityName": "login",
+      "relationshipType": "one-to-many",
+      "otherEntityRelationshipName": "partnerbooking"
+    }
+  ],
+  "fields": [
+    {
+      "fieldName": "catalogueId",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "30"
+    },
+    {
+      "fieldName": "partnerId",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "30"
+    },
+    {
+      "fieldName": "cancelInd",
+      "fieldType": "CancelInd",
+      "fieldValues": "A,I"
+    },
+    {
+      "fieldName": "bookingDt",
+      "fieldType": "Instant"
+    }
+  ],
+  "changelogDate": "20210403085346",
+  "dto": "mapstruct",
+  "searchEngine": "elasticsearch",
+  "service": "serviceImpl",
+  "entityTableName": "book_pay",
+  "databaseType": "sql",
+  "readOnly": false,
+  "jpaMetamodelFiltering": true,
+  "pagination": "pagination",
+  "microserviceName": "gymMasterBookingPayment"
+}

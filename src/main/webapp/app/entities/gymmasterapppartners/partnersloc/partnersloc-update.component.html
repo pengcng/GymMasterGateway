@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-            <h2 id="jhi-partnersloc-heading">Create or edit a Partnersloc</h2>
+            <h2 id="jhi-partnersloc-heading">Create or Edit Partner's Location</h2>
 
             <div>
                 <jhi-alert-error></jhi-alert-error>
@@ -14,11 +14,11 @@
                 <div class="form-group">
                     <label class="form-control-label" for="field_region">Region</label>
                     <select class="form-control" name="region" formControlName="region" id="field_region">
-                        <option value="C">C</option>
-                        <option value="E">E</option>
-                        <option value="N">N</option>
-                        <option value="NE">NE</option>
-                        <option value="W">W</option>
+                        <option value="C">Central</option>
+                        <option value="E">East</option>
+                        <option value="N">North</option>
+                        <option value="NE">North East</option>
+                        <option value="W">West</option>
                     </select>
                     <div *ngIf="editForm.get('region')!.invalid && (editForm.get('region')!.dirty || editForm.get('region')!.touched)">
                         <small class="form-text text-danger"
@@ -59,7 +59,7 @@
                         </small>
                         <small class="form-text text-danger"
                                *ngIf="editForm.get('postalCode')?.errors?.max">
-                            This field cannot be more than 6.
+                            This field cannot be more than 999999.
                         </small>
                         <small class="form-text text-danger"
                             [hidden]="!editForm.get('postalCode')?.errors?.number">

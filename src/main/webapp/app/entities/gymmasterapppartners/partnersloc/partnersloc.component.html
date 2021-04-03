@@ -1,11 +1,11 @@
 <div>
     <h2 id="page-heading">
-        <span>Partnerslocs</span>
+        <span>Partner Locations</span>
 
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-partnersloc" [routerLink]="['/partnersloc/new']">
             <fa-icon icon="plus"></fa-icon>
             <span class="hidden-sm-down">
-            Create a new Partnersloc
+            Create New Partner Locations
             </span>
         </button>
     </h2>
@@ -33,7 +33,7 @@
     </div>
 
     <div class="alert alert-warning" id="no-result" *ngIf="partnerslocs?.length === 0">
-        <span>No partnerslocs found</span>
+        <span>No Partner Locations Found</span>
     </div>
 
     <div class="table-responsive" id="entities" *ngIf="partnerslocs && partnerslocs.length > 0">
@@ -59,8 +59,8 @@
                     <td>{{ partnersloc.region }}</td>
                     <td>{{ partnersloc.address }}</td>
                     <td>{{ partnersloc.postalCode }}</td>
-                    <td>{{ partnersloc.openTime | date:'medium' }}</td>
-                    <td>{{ partnersloc.closeTime | date:'medium' }}</td>
+                    <td>{{ partnersloc.openTime | date:'shortTime' }}</td>
+                    <td>{{ partnersloc.closeTime | date:'shortTime' }}</td>
                     <td>{{ partnersloc.pocName }}</td>
                     <td>{{ partnersloc.pocNo }}</td>
                     <td>{{ partnersloc.pocEmail }}</td>

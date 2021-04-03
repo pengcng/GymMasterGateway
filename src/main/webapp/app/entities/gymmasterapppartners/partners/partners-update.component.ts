@@ -18,7 +18,7 @@ export class PartnersUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     companyName: [null, [Validators.required, Validators.maxLength(30)]],
-    userName: [null, [Validators.required, Validators.minLength(6), Validators.maxLength(30)]],
+    userName: [null, [Validators.required, Validators.maxLength(30)]],
     type: [null, [Validators.required]],
     activeInd: [null, [Validators.required]],
   });

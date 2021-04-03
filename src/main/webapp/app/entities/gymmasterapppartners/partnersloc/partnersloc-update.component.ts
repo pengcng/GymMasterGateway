@@ -24,7 +24,7 @@ export class PartnerslocUpdateComponent implements OnInit {
     id: [],
     region: [null, [Validators.required]],
     address: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(66)]],
-    postalCode: [null, [Validators.required, Validators.max(6)]],
+    postalCode: [null, [Validators.required, Validators.max(999999)]],
     openTime: [null, [Validators.required]],
     closeTime: [null, [Validators.required]],
     pocName: [null, [Validators.required]],

@@ -39,7 +39,7 @@ export const partnersRoute: Routes = [
     path: '',
     component: PartnersComponent,
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.USER, Authority.PARTNER],
       defaultSort: 'id,asc',
       pageTitle: 'Partners',
     },
@@ -52,7 +52,7 @@ export const partnersRoute: Routes = [
       partners: PartnersResolve,
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.USER, Authority.PARTNER],
       pageTitle: 'Partners',
     },
     canActivate: [UserRouteAccessService],
@@ -64,7 +64,7 @@ export const partnersRoute: Routes = [
       partners: PartnersResolve,
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.USER, Authority.PARTNER],
       pageTitle: 'Partners',
     },
     canActivate: [UserRouteAccessService],
@@ -76,7 +76,7 @@ export const partnersRoute: Routes = [
       partners: PartnersResolve,
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.USER, Authority.PARTNER],
       pageTitle: 'Partners',
     },
     canActivate: [UserRouteAccessService],

@@ -35,11 +35,7 @@
                         <small class="form-text text-danger"
                                *ngIf="editForm.get('userName')?.errors?.required">
                         This field is required.
-                        </small>
-                        <small class="form-text text-danger"
-                               *ngIf="editForm.get('userName')?.errors?.minlength">
-                        This field is required to be at least 6 characters.
-                        </small>
+                        </small>                        
                         <small class="form-text text-danger"
                                *ngIf="editForm.get('userName')?.errors?.maxlength">
                         This field cannot be longer than 30 characters.

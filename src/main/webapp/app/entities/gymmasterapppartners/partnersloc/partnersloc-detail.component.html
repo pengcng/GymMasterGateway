@@ -9,8 +9,12 @@
 
             <dl class="row-md jh-entity-details">
                 <dt><span>Region</span></dt>
-                <dd>
-                    <span>{{ partnersloc.region }}</span>
+                <dd>                    
+                    <span *ngIf= "partnersloc.region==='C'">Central</span>
+                    <span *ngIf= "partnersloc.region==='E'">East</span>
+                    <span *ngIf= "partnersloc.region==='N'">North</span>
+                    <span *ngIf= "partnersloc.region==='NE'">North East</span>
+                    <span *ngIf= "partnersloc.region==='W'">West</span>
                 </dd>
                 <dt><span>Address</span></dt>
                 <dd>
@@ -22,11 +26,11 @@
                 </dd>
                 <dt><span>Open Time</span></dt>
                 <dd>
-                    <span>{{ partnersloc.openTime }}</span>
+                    <span>{{ partnersloc.openTime | date:'shortTime' }}</span>
                 </dd>
                 <dt><span>Close Time</span></dt>
                 <dd>
-                    <span>{{ partnersloc.closeTime }}</span>
+                    <span>{{ partnersloc.closeTime | date:'shortTime' }}</span>
                 </dd>
                 <dt><span>Poc Name</span></dt>
                 <dd>

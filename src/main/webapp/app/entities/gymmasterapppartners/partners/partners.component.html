@@ -5,7 +5,7 @@
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-partners" [routerLink]="['/partners/new']">
             <fa-icon icon="plus"></fa-icon>
             <span class="hidden-sm-down">
-            Create a new Partners
+            Create a New Partner
             </span>
         </button>
     </h2>
@@ -33,7 +33,7 @@
     </div>
 
     <div class="alert alert-warning" id="no-result" *ngIf="partners?.length === 0">
-        <span>No partners found</span>
+        <span>No Partners Found</span>
     </div>
 
     <div class="table-responsive" id="entities" *ngIf="partners && partners.length > 0">
@@ -49,36 +49,74 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let partners of partners ;trackBy: trackId">
-                    <td><a [routerLink]="['/partners', partners.id, 'view']">{{ partners.id }}</a></td>
-                    <td>{{ partners.companyName }}</td>
-                    <td>{{ partners.userName }}</td>
-                    <td>{{ partners.type }}</td>
-                    <td>{{ partners.activeInd }}</td>
-                    <td class="text-right">
-                        <div class="btn-group">
-                            <button type="submit"
-                                    [routerLink]="['/partners', partners.id, 'view']"
-                                    class="btn btn-info btn-sm">
-                                <fa-icon icon="eye"></fa-icon>
-                                <span class="d-none d-md-inline">View</span>
-                            </button>
+                <ng-container *jhiHasAnyAuthority ="'ROLE_ADMIN'">
+                    <tr *ngFor="let partners of partners ;trackBy: trackId">
+                        <td><a [routerLink]="['/partners', partners.id, 'view']">{{ partners.id }}</a></td>
+                        <td>{{ partners.companyName }}</td>
+                        <td>{{ partners.userName }}</td>
+                        <td>{{ partners.type }}</td>
+                        <td>{{ partners.activeInd }}</td>
+                        <td class="text-right">
+                            <div class="btn-group">
+                                <button type="submit"
+                                        [routerLink]="['/partners', partners.id, 'view']"
+                                        class="btn btn-info btn-sm">
+                                    <fa-icon icon="eye"></fa-icon>
+                                    <span class="d-none d-md-inline">View</span>
+                                </button>
 
-                            <button type="submit"
-                                    [routerLink]="['/partners', partners.id, 'edit']"
-                                    class="btn btn-primary btn-sm">
-                                <fa-icon icon="pencil-alt"></fa-icon>
-                                <span class="d-none d-md-inline">Edit</span>
-                            </button>
+                                <button type="submit"
+                                        [routerLink]="['/partners', partners.id, 'edit']"
+                                        class="btn btn-primary btn-sm">
+                                    <fa-icon icon="pencil-alt"></fa-icon>
+                                    <span class="d-none d-md-inline">Edit</span>
+                                </button>
 
-                            <button type="submit" (click)="delete(partners)"
-                                    class="btn btn-danger btn-sm">
-                                <fa-icon icon="times"></fa-icon>
-                                <span class="d-none d-md-inline">Delete</span>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
+                                <button type="submit" (click)="delete(partners)"
+                                        class="btn btn-danger btn-sm">
+                                    <fa-icon icon="times"></fa-icon>
+                                    <span class="d-none d-md-inline">Delete</span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-container>
+                <ng-container *jhiHasAnyAuthority ="'ROLE_PARTNER'">
+                    <tr *ngFor="let partners of partners ;trackBy: trackId">
+                        <ng-container *ngIf="account">
+                            <ng-container *ngIf="partners.userName === account.login">
+                                <td><a [routerLink]="['/partners', partners.id, 'view']">{{ partners.id }}</a></td>
+                                <td>{{ partners.companyName }}</td>
+                                <td>{{ partners.userName }}</td>
+                                <td>{{ partners.type }}</td>
+                                <td>{{ partners.activeInd }}</td>
+                                <td class="text-right">
+                                    <div class="btn-group">
+                                        <button type="submit"
+                                                [routerLink]="['/partners', partners.id, 'view']"
+                                                class="btn btn-info btn-sm">
+                                            <fa-icon icon="eye"></fa-icon>
+                                            <span class="d-none d-md-inline">View</span>
+                                        </button>
+
+                                        <button type="submit"
+                                                [routerLink]="['/partners', partners.id, 'edit']"
+                                                class="btn btn-primary btn-sm">
+                                            <fa-icon icon="pencil-alt"></fa-icon>
+                                            <span class="d-none d-md-inline">Edit</span>
+                                        </button>
+
+                                        <button type="submit" (click)="delete(partners)"
+                                                class="btn btn-danger btn-sm">
+                                            <fa-icon icon="times"></fa-icon>
+                                            <span class="d-none d-md-inline">Delete</span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </ng-container>
+                        </ng-container>
+                    </tr>
+                </ng-container>
             </tbody>
         </table>
     </div>

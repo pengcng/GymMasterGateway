@@ -12,6 +12,7 @@ export interface IPartnersloc {
   pocNo?: number;
   pocEmail?: string;
   partnersCompanyName?: string;
+  partnersUserName?: string;
   partnersId?: number;
 }
 
@@ -27,6 +28,7 @@ export class Partnersloc implements IPartnersloc {
     public pocNo?: number,
     public pocEmail?: string,
     public partnersCompanyName?: string,
+    public partnersUserName?: string,
     public partnersId?: number
   ) {}
 }

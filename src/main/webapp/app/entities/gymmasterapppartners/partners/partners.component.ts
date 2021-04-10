@@ -11,6 +11,9 @@ import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { PartnersService } from './partners.service';
 import { PartnersDeleteDialogComponent } from './partners-delete-dialog.component';
 
+import { AccountService } from 'app/core/auth/account.service';
+import { Account } from 'app/core/user/account.model';
+
 @Component({
   selector: 'jhi-partners',
   templateUrl: './partners.component.html',
@@ -25,13 +28,16 @@ export class PartnersComponent implements OnInit, OnDestroy {
   predicate!: string;
   ascending!: boolean;
   ngbPaginationPage = 1;
+  account: Account | null = null;
+  authSubscription?: Subscription;
 
   constructor(
     protected partnersService: PartnersService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
     protected eventManager: JhiEventManager,
-    protected modalService: NgbModal
+    protected modalService: NgbModal,
+    private accountService: AccountService
   ) {
     this.currentSearch =
       this.activatedRoute.snapshot && this.activatedRoute.snapshot.queryParams['search']
@@ -77,6 +83,7 @@ export class PartnersComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.handleNavigation();
     this.registerChangeInPartners();
+    this.authSubscription = this.accountService.getAuthenticationState().subscribe(account => (this.account = account));
   }
 
   protected handleNavigation(): void {

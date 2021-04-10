@@ -54,45 +54,92 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let partnersloc of partnerslocs ;trackBy: trackId">
-                    <td><a [routerLink]="['/partnersloc', partnersloc.id, 'view']">{{ partnersloc.id }}</a></td>
-                    <td>{{ partnersloc.region }}</td>
-                    <td>{{ partnersloc.address }}</td>
-                    <td>{{ partnersloc.postalCode }}</td>
-                    <td>{{ partnersloc.openTime | date:'shortTime' }}</td>
-                    <td>{{ partnersloc.closeTime | date:'shortTime' }}</td>
-                    <td>{{ partnersloc.pocName }}</td>
-                    <td>{{ partnersloc.pocNo }}</td>
-                    <td>{{ partnersloc.pocEmail }}</td>
-                    <td>
-                        <div *ngIf="partnersloc.partnersId">
-                            <a [routerLink]="['/partners', partnersloc.partnersId , 'view']" >{{ partnersloc.partnersCompanyName }}</a>
-                        </div>
-                    </td>
-                    <td class="text-right">
-                        <div class="btn-group">
-                            <button type="submit"
-                                    [routerLink]="['/partnersloc', partnersloc.id, 'view']"
-                                    class="btn btn-info btn-sm">
-                                <fa-icon icon="eye"></fa-icon>
-                                <span class="d-none d-md-inline">View</span>
-                            </button>
+                <ng-container *jhiHasAnyAuthority ="'ROLE_ADMIN'">
+                    <tr *ngFor="let partnersloc of partnerslocs ;trackBy: trackId">
+                        <td><a [routerLink]="['/partnersloc', partnersloc.id, 'view']">{{ partnersloc.id }}</a></td>
+                        <td>{{ partnersloc.region }}</td>
+                        <td>{{ partnersloc.address }}</td>
+                        <td>{{ partnersloc.postalCode }}</td>
+                        <td>{{ partnersloc.openTime | date:'shortTime' }}</td>
+                        <td>{{ partnersloc.closeTime | date:'shortTime' }}</td>
+                        <td>{{ partnersloc.pocName }}</td>
+                        <td>{{ partnersloc.pocNo }}</td>
+                        <td>{{ partnersloc.pocEmail }}</td>
+                        <td>
+                            <div *ngIf="partnersloc.partnersId">
+                                <a [routerLink]="['/partners', partnersloc.partnersId , 'view']" >{{ partnersloc.partnersCompanyName }}</a>
+                            </div>
+                        </td>
+                        <td class="text-right">
+                            <div class="btn-group">
+                                <button type="submit"
+                                        [routerLink]="['/partnersloc', partnersloc.id, 'view']"
+                                        class="btn btn-info btn-sm">
+                                    <fa-icon icon="eye"></fa-icon>
+                                    <span class="d-none d-md-inline">View</span>
+                                </button>
 
-                            <button type="submit"
-                                    [routerLink]="['/partnersloc', partnersloc.id, 'edit']"
-                                    class="btn btn-primary btn-sm">
-                                <fa-icon icon="pencil-alt"></fa-icon>
-                                <span class="d-none d-md-inline">Edit</span>
-                            </button>
+                                <button type="submit"
+                                        [routerLink]="['/partnersloc', partnersloc.id, 'edit']"
+                                        class="btn btn-primary btn-sm">
+                                    <fa-icon icon="pencil-alt"></fa-icon>
+                                    <span class="d-none d-md-inline">Edit</span>
+                                </button>
 
-                            <button type="submit" (click)="delete(partnersloc)"
-                                    class="btn btn-danger btn-sm">
-                                <fa-icon icon="times"></fa-icon>
-                                <span class="d-none d-md-inline">Delete</span>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
+                                <button type="submit" (click)="delete(partnersloc)"
+                                        class="btn btn-danger btn-sm">
+                                    <fa-icon icon="times"></fa-icon>
+                                    <span class="d-none d-md-inline">Delete</span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-container>
+                <ng-container *jhiHasAnyAuthority ="'ROLE_PARTNER'">
+                    <tr *ngFor="let partnersloc of partnerslocs ;trackBy: trackId">
+                        <ng-container *ngIf="account">
+                            <ng-container *ngIf="partnersloc.partnersUserName === account.login">
+                                <td><a [routerLink]="['/partnersloc', partnersloc.id, 'view']">{{ partnersloc.id }}</a></td>
+                                <td>{{ partnersloc.region }}</td>
+                                <td>{{ partnersloc.address }}</td>
+                                <td>{{ partnersloc.postalCode }}</td>
+                                <td>{{ partnersloc.openTime | date:'shortTime' }}</td>
+                                <td>{{ partnersloc.closeTime | date:'shortTime' }}</td>
+                                <td>{{ partnersloc.pocName }}</td>
+                                <td>{{ partnersloc.pocNo }}</td>
+                                <td>{{ partnersloc.pocEmail }}</td>
+                                <td>
+                                    <div *ngIf="partnersloc.partnersId">
+                                        <a [routerLink]="['/partners', partnersloc.partnersId , 'view']" >{{ partnersloc.partnersCompanyName }}</a>
+                                    </div>
+                                </td>
+                                <td class="text-right">
+                                    <div class="btn-group">
+                                        <button type="submit"
+                                                [routerLink]="['/partnersloc', partnersloc.id, 'view']"
+                                                class="btn btn-info btn-sm">
+                                            <fa-icon icon="eye"></fa-icon>
+                                            <span class="d-none d-md-inline">View</span>
+                                        </button>
+
+                                        <button type="submit"
+                                                [routerLink]="['/partnersloc', partnersloc.id, 'edit']"
+                                                class="btn btn-primary btn-sm">
+                                            <fa-icon icon="pencil-alt"></fa-icon>
+                                            <span class="d-none d-md-inline">Edit</span>
+                                        </button>
+
+                                        <button type="submit" (click)="delete(partnersloc)"
+                                                class="btn btn-danger btn-sm">
+                                            <fa-icon icon="times"></fa-icon>
+                                            <span class="d-none d-md-inline">Delete</span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </ng-container>
+                        </ng-container>
+                    </tr>
+                </ng-container>
             </tbody>
         </table>
     </div>

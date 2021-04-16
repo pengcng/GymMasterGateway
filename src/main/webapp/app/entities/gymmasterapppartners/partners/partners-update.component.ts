@@ -3,10 +3,13 @@ import { HttpResponse } from '@angular/common/http';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { IPartners, Partners } from 'app/shared/model/gymmasterapppartners/partners.model';
 import { PartnersService } from './partners.service';
+
+import { AccountService } from 'app/core/auth/account.service';
+import { Account } from 'app/core/user/account.model';
 
 @Component({
   selector: 'jhi-partners-update',
@@ -14,6 +17,8 @@ import { PartnersService } from './partners.service';
 })
 export class PartnersUpdateComponent implements OnInit {
   isSaving = false;
+  account: Account | null = null;
+  authSubscription?: Subscription;
 
   editForm = this.fb.group({
     id: [],
@@ -23,12 +28,14 @@ export class PartnersUpdateComponent implements OnInit {
     activeInd: [null, [Validators.required]],
   });
 
-  constructor(protected partnersService: PartnersService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {}
+  constructor(protected partnersService: PartnersService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder,
+  private accountService: AccountService) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ partners }) => {
       this.updateForm(partners);
     });
+    this.authSubscription = this.accountService.getAuthenticationState().subscribe(account => (this.account = account));
   }
 
   updateForm(partners: IPartners): void {

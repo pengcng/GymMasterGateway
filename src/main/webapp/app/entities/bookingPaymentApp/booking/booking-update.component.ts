@@ -23,6 +23,7 @@ export class BookingUpdateComponent implements OnInit {
     customerId: [null, [Validators.maxLength(30)]],
     cancelInd: [],
     bookingDt: [],
+    userName: [],
   });
 
   constructor(protected bookingService: BookingService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {}
@@ -45,6 +46,7 @@ export class BookingUpdateComponent implements OnInit {
       customerId: booking.customerId,
       cancelInd: booking.cancelInd,
       bookingDt: booking.bookingDt ? booking.bookingDt.format(DATE_TIME_FORMAT) : null,
+      userName: booking.userName,
     });
   }
 
@@ -70,6 +72,7 @@ export class BookingUpdateComponent implements OnInit {
       customerId: this.editForm.get(['customerId'])!.value,
       cancelInd: this.editForm.get(['cancelInd'])!.value,
       bookingDt: this.editForm.get(['bookingDt'])!.value ? moment(this.editForm.get(['bookingDt'])!.value, DATE_TIME_FORMAT) : undefined,
+      userName: this.editForm.get(['userName'])!.value,
     };
   }
 

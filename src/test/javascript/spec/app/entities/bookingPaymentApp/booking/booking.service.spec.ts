@@ -25,7 +25,7 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new Booking(0, 'AAAAAAA', 'AAAAAAA', CancelInd.YES, currentDate);
+      elemDefault = new Booking(0, 'AAAAAAA', 'AAAAAAA', CancelInd.YES, currentDate, 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -74,6 +74,7 @@ describe('Service Tests', () => {
             customerId: 'BBBBBB',
             cancelInd: 'BBBBBB',
             bookingDt: currentDate.format(DATE_TIME_FORMAT),
+            userName: 'BBBBBB',
           },
           elemDefault
         );
@@ -99,6 +100,7 @@ describe('Service Tests', () => {
             customerId: 'BBBBBB',
             cancelInd: 'BBBBBB',
             bookingDt: currentDate.format(DATE_TIME_FORMAT),
+            userName: 'BBBBBB',
           },
           elemDefault
         );

@@ -7,6 +7,7 @@ export interface IBooking {
   customerId?: string;
   cancelInd?: CancelInd;
   bookingDt?: Moment;
+  userName?: string;
   paymentId?: number;
 }
 
@@ -17,6 +18,7 @@ export class Booking implements IBooking {
     public customerId?: string,
     public cancelInd?: CancelInd,
     public bookingDt?: Moment,
+    public userName?: string,
     public paymentId?: number
   ) {}
 }

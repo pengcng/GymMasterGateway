@@ -45,6 +45,7 @@
                     <th scope="col"  jhiSortBy="customerId"><span>Customer Id</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="cancelInd"><span>Cancel Ind</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="bookingDt"><span>Booking Dt</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="userName"><span>User Name</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -55,6 +56,7 @@
                     <td>{{ booking.customerId }}</td>
                     <td>{{ booking.cancelInd }}</td>
                     <td>{{ booking.bookingDt | date:'medium' }}</td>
+                    <td>{{ booking.userName }}</td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"

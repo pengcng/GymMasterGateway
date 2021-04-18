@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
@@ -13,9 +13,13 @@ import { BookingService } from './booking.service';
 @Component({
   selector: 'jhi-booking-update',
   templateUrl: './booking-update.component.html',
+  template: 'The href is: {{href}}',
 })
 export class BookingUpdateComponent implements OnInit {
   isSaving = false;
+  href: any = '';
+  splitted: any[] = [];
+  catId: any = '';
 
   editForm = this.fb.group({
     id: [],
@@ -25,13 +29,26 @@ export class BookingUpdateComponent implements OnInit {
     bookingDt: [],
   });
 
-  constructor(protected bookingService: BookingService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {}
+  constructor(
+    protected bookingService: BookingService,
+    protected activatedRoute: ActivatedRoute,
+    private fb: FormBuilder,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ booking }) => {
       if (!booking.id) {
         const today = moment().startOf('day');
         booking.bookingDt = today;
+
+        this.href = this.router.url;
+        console.warn(this.router.url);
+        this.splitted = this.href.split('#');
+        console.warn(this.splitted);
+        this.catId = this.splitted[1];
+        console.warn(this.catId);
+        document.getElementById('field_catalogueId').value = 'miche';
       }
 
       this.updateForm(booking);

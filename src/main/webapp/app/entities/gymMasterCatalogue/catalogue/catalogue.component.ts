@@ -14,6 +14,7 @@ import { CatalogueDeleteDialogComponent } from './catalogue-delete-dialog.compon
 @Component({
   selector: 'jhi-catalogue',
   templateUrl: './catalogue.component.html',
+  styleUrls: ['catalogue.component.scss'],
 })
 export class CatalogueComponent implements OnInit, OnDestroy {
   catalogues?: ICatalogue[];

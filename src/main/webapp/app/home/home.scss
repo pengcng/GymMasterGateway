@@ -4,10 +4,21 @@ Main page styles
 
 .hipster {
   display: inline-block;
-  width: 347px;
   height: 497px;
   //background: url('../../content/images/jhipster_family_member_3.svg') no-repeat center top;
-  background-size: contain;
+  background: url('../../content/images/gym_background.png') no-repeat center top;
+  background-size: cover;
+  width: 100%;
+}
+
+.introbox {
+  background-color: #000000;
+  color: #ffffff;
+  font-size: 20px;
+  opacity: 45%;
+  margin: auto;
+  padding: 10px;
+  text-align: center;
 }
 
 /* wait autoprefixer update to allow simple generation of high pixel density media query */
@@ -18,6 +29,7 @@ Main page styles
   only screen and (min-resolution: 2dppx) {
   .hipster {
     //background: url('../../content/images/jhipster_family_member_3.svg') no-repeat center top;
-    background-size: contain;
+    background-size: cover;
+    width: 100%;
   }
 }

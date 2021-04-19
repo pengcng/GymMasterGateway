@@ -47,7 +47,7 @@
             </button>
             
             <button type="button"
-                    [routerLink]="['/booking/new']"
+                    (click)="toBookingUrl()"
                     class="btn btn-primary">
                 <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Book</span>
             </button>

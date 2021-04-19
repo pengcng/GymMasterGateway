@@ -14,7 +14,7 @@
                 <div class="form-group">
                     <label class="form-control-label" for="field_catalogueId">Catalogue Id</label>
                     <input type="text" class="form-control" name="catalogueId" id="field_catalogueId"
-                           formControlName="catalogueId" value="" readonly/>
+                           formControlName="catalogueId" [(ngModel)]="catIdInput" readonly/>
                     <div *ngIf="editForm.get('catalogueId')!.invalid && (editForm.get('catalogueId')!.dirty || editForm.get('catalogueId')!.touched)">
                         <small class="form-text text-danger"
                                *ngIf="editForm.get('catalogueId')?.errors?.maxlength">

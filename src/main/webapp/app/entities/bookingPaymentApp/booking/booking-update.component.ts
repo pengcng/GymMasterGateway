@@ -67,7 +67,9 @@ export class BookingUpdateComponent implements OnInit {
   }
 
   previousState(): void {
-    window.history.back();
+    if (this.catId !== null) {
+      window.close();
+    } else window.history.back();
   }
 
   save(): void {

@@ -9,6 +9,7 @@ ul {
   list-style-type: none;
   -webkit-margin-before: 0;
   -webkit-margin-after: 0;
+  padding-left: -40px;
 }
 
 .catElement {
@@ -25,4 +26,11 @@ table,
 td {
   margin: 0 auto;
   color: black;
+}
+
+.sideColumn {
+  background-color: #000000;
+  color: #ffffff;
+  opacity: 45%;
+  text-align: center;
 }

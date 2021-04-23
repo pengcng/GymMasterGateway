@@ -14,10 +14,12 @@ import { CatalogueDeleteDialogComponent } from './catalogue-delete-dialog.compon
 @Component({
   selector: 'jhi-catalogue',
   templateUrl: './catalogue.component.html',
+  styleUrls: ['catalogue.component.scss'],
 })
 export class CatalogueComponent implements OnInit, OnDestroy {
   catalogues?: ICatalogue[];
   eventSubscriber?: Subscription;
+  searchMode: any = false;
   currentSearch: string;
   totalItems = 0;
   itemsPerPage = ITEMS_PER_PAGE;
@@ -25,6 +27,9 @@ export class CatalogueComponent implements OnInit, OnDestroy {
   predicate!: string;
   ascending!: boolean;
   ngbPaginationPage = 1;
+  categories: string[] = ['Show All', 'Dance', 'HIIT', 'Pilates', 'Spin', 'Swimming', 'Yoga'];
+  searchField: any = '';
+  categorySearch: any = '';
 
   constructor(
     protected catalogueService: CatalogueService,
@@ -41,8 +46,22 @@ export class CatalogueComponent implements OnInit, OnDestroy {
 
   loadPage(page?: number, dontNavigate?: boolean): void {
     const pageToLoad: number = page || this.page || 1;
-
-    if (this.currentSearch) {
+    if (this.searchField !== '') {
+      console.warn('entered categorySearch with searchField ' + this.searchField);
+      this.catalogueService
+        .search({
+          page: pageToLoad - 1,
+          query: this.currentSearch,
+          size: this.itemsPerPage,
+          sort: this.sort(),
+        })
+        .subscribe(
+          (res: HttpResponse<ICatalogue[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
+          () => this.onError()
+        );
+      return;
+    } else if (this.currentSearch) {
+      console.warn('entered normal search with query ' + this.currentSearch);
       this.catalogueService
         .search({
           page: pageToLoad - 1,
@@ -71,6 +90,9 @@ export class CatalogueComponent implements OnInit, OnDestroy {
 
   search(query: string): void {
     this.currentSearch = query;
+    if (query === '') {
+      this.searchMode = false;
+    } else this.searchMode = true;
     this.loadPage(1);
   }
 
@@ -142,5 +164,20 @@ export class CatalogueComponent implements OnInit, OnDestroy {
 
   protected onError(): void {
     this.ngbPaginationPage = this.page ?? 1;
+  }
+
+  searchByCategory(cat: any): void {
+    console.warn('filter by: ' + cat);
+    if (cat !== 'Show All') {
+      console.warn('cat !== Show All');
+      this.categorySearch = cat;
+      this.searchMode = false;
+    } else {
+      console.warn('cat === Show All');
+      this.categorySearch = '';
+      this.searchMode = false;
+    }
+
+    this.loadPage(1);
   }
 }

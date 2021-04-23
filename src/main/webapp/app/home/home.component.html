@@ -1,8 +1,27 @@
 <div class="row hipster">
         <div [ngSwitch]="isAuthenticated()">
             <div class="introbox" *ngSwitchCase="true">
-                <span *ngIf="account"><h1>Welcome back, Gym Master {{ account.login }}!</h1></span>
+                <span *ngIf="account"><h1>Welcome back, Gym Master {{ account.firstName }} {{ account.lastName }}!</h1></span>
             	<p class="lead">Recommended for you:</p>
+            	<div class="mainCat">
+				    <div class="alert alert-warning" id="no-result" *ngIf="catalogues?.length === 0">
+				        <span>No catalogues found</span>
+				    </div>
+				    
+				    <ul>
+					    <li *ngFor="let catalogue of catalogues ;trackBy: trackId">
+						    <div class="catElement">
+							    <table>
+								    <a [routerLink]="['/catalogue', catalogue.id, 'view']">
+									    <tr><td><img src="../../content/images/sam-moqadam-GC0eSwdO_HM-unsplash.jpg" alt="gym class" width="200"></td></tr>
+									    <tr><td>{{ catalogue.description }}</td></tr>
+									    <tr><td>{{ catalogue.sessionDt }}</td></tr>
+								    </a>
+							    </table>
+						    </div>
+					    </li>
+					</ul>
+				</div>
             </div>
 
             <div class="introbox" *ngSwitchCase="false">

@@ -13,7 +13,6 @@ import { BookingService } from './booking.service';
 @Component({
   selector: 'jhi-booking-update',
   templateUrl: './booking-update.component.html',
-  template: 'The href is: {{href}}',
 })
 export class BookingUpdateComponent implements OnInit {
   isSaving = false;
@@ -67,9 +66,7 @@ export class BookingUpdateComponent implements OnInit {
   }
 
   previousState(): void {
-    if (this.catId !== null) {
-      window.close();
-    } else window.history.back();
+    window.close();
   }
 
   save(): void {
@@ -102,7 +99,8 @@ export class BookingUpdateComponent implements OnInit {
 
   protected onSaveSuccess(): void {
     this.isSaving = false;
-    this.previousState();
+    console.warn('navigate to booking page now');
+    this.router.navigate(['/booking']);
   }
 
   protected onSaveError(): void {

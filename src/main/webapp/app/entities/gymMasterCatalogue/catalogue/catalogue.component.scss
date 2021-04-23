@@ -2,30 +2,24 @@
   margin-top: 50px;
 }
 
-ul {
+.arrangeInColumns {
   -webkit-column-count: 3;
   -moz-column-count: 3;
   columns: 3;
   list-style-type: none;
   -webkit-margin-before: 0;
   -webkit-margin-after: 0;
-  padding-left: -40px;
 }
 
 .catElement {
   padding: 10px;
   text-align: center;
-  margin: auto;
+  margin: 0 auto;
+  color: #000000;
 }
 
 .catElement:hover {
   border: 1px solid black;
-}
-
-table,
-td {
-  margin: 0 auto;
-  color: black;
 }
 
 .sideColumn {
@@ -33,4 +27,16 @@ td {
   color: #ffffff;
   opacity: 45%;
   text-align: center;
+}
+
+.categoryList {
+  list-style-type: none;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.categoryList:hover {
+  color: #4089c1;
+  cursor: pointer;
+  text-decoration: underline;
 }

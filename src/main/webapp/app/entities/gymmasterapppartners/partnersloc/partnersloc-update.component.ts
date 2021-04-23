@@ -3,7 +3,7 @@ import { HttpResponse } from '@angular/common/http';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 
@@ -11,6 +11,9 @@ import { IPartnersloc, Partnersloc } from 'app/shared/model/gymmasterapppartners
 import { PartnerslocService } from './partnersloc.service';
 import { IPartners } from 'app/shared/model/gymmasterapppartners/partners.model';
 import { PartnersService } from 'app/entities/gymmasterapppartners/partners/partners.service';
+
+import { AccountService } from 'app/core/auth/account.service';
+import { Account } from 'app/core/user/account.model';
 
 @Component({
   selector: 'jhi-partnersloc-update',
@@ -33,11 +36,15 @@ export class PartnerslocUpdateComponent implements OnInit {
     partnersId: [],
   });
 
+  account: Account | null = null;
+  authSubscription?: Subscription;
+
   constructor(
     protected partnerslocService: PartnerslocService,
     protected partnersService: PartnersService,
     protected activatedRoute: ActivatedRoute,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private accountService: AccountService
   ) {}
 
   ngOnInit(): void {
@@ -52,6 +59,7 @@ export class PartnerslocUpdateComponent implements OnInit {
 
       this.partnersService.query().subscribe((res: HttpResponse<IPartners[]>) => (this.partners = res.body || []));
     });
+    this.authSubscription = this.accountService.getAuthenticationState().subscribe(account => (this.account = account));
   }
 
   updateForm(partnersloc: IPartnersloc): void {

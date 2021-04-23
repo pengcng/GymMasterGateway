@@ -146,7 +146,20 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" *jhiHasAnyAuthority ="'ROLE_PARTNER'">
+                    <label class="form-control-label" for="field_partners">Partners</label>
+                    <select class="form-control" id="field_partners" name="partners" formControlName="partnersId">
+                        <ng-container *ngFor="let partnersOption of partners; trackBy: trackById">
+                            <ng-container *ngIf="account">
+                                <ng-container *ngIf="partnersOption.userName === account.login">
+                                    <option [ngValue]="partnersOption.id">{{ partnersOption.companyName }}</option>
+                                </ng-container>
+                            </ng-container>
+                        </ng-container>
+                    </select>
+                </div>
+
+                <div class="form-group" *jhiHasAnyAuthority ="'ROLE_ADMIN'">
                     <label class="form-control-label" for="field_partners">Partners</label>
                     <select class="form-control" id="field_partners" name="partners" formControlName="partnersId">
                         <option [ngValue]="null"></option>

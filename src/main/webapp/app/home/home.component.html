@@ -1,7 +1,7 @@
 <div class="row hipster">
         <div [ngSwitch]="isAuthenticated()">
             <div class="introbox" *ngSwitchCase="true">
-                <span *ngIf="account"><h1>Welcome back, Gym Master {{ account.login }}!</h1></span>
+                <span *ngIf="account"><h1>Welcome back, Gym Master {{ account.firstName }} {{ account.lastName }}!</h1></span>
             	<p class="lead">Recommended for you:</p>
             	<div class="mainCat">
 				    <div class="alert alert-warning" id="no-result" *ngIf="catalogues?.length === 0">

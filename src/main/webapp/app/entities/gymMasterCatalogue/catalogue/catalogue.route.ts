@@ -39,7 +39,7 @@ export const catalogueRoute: Routes = [
     path: '',
     component: CatalogueComponent,
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.USER, Authority.PARTNER],
       defaultSort: 'id,asc',
       pageTitle: 'Catalogues',
     },
@@ -52,7 +52,7 @@ export const catalogueRoute: Routes = [
       catalogue: CatalogueResolve,
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.USER, Authority.PARTNER],
       pageTitle: 'Catalogues',
     },
     canActivate: [UserRouteAccessService],
@@ -64,7 +64,7 @@ export const catalogueRoute: Routes = [
       catalogue: CatalogueResolve,
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.USER, Authority.PARTNER],
       pageTitle: 'Catalogues',
     },
     canActivate: [UserRouteAccessService],
@@ -76,7 +76,7 @@ export const catalogueRoute: Routes = [
       catalogue: CatalogueResolve,
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.USER, Authority.PARTNER],
       pageTitle: 'Catalogues',
     },
     canActivate: [UserRouteAccessService],

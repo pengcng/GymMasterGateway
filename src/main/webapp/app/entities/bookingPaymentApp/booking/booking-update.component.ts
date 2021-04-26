@@ -19,6 +19,7 @@ export class BookingUpdateComponent implements OnInit {
   href: any = '';
   splitted: any[] = [];
   catId: any = '';
+  catPrice: any = '';
   catIdInput: any = '';
 
   editForm = this.fb.group({
@@ -48,6 +49,8 @@ export class BookingUpdateComponent implements OnInit {
         console.warn(this.splitted);
         this.catId = this.splitted[1];
         console.warn('catId = ' + this.catId);
+        this.catPrice = this.splitted[2];
+        console.warn('catPrice = ' + this.catPrice);
         this.catIdInput = this.catId;
       }
 

@@ -11,6 +11,12 @@ import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { CatalogueService } from './catalogue.service';
 import { CatalogueDeleteDialogComponent } from './catalogue-delete-dialog.component';
 
+import { AccountService } from 'app/core/auth/account.service';
+import { Account } from 'app/core/user/account.model';
+
+import { IPartners } from 'app/shared/model/gymmasterapppartners/partners.model';
+import { PartnersService } from 'app/entities/gymmasterapppartners/partners/partners.service';
+
 @Component({
   selector: 'jhi-catalogue',
   templateUrl: './catalogue.component.html',
@@ -18,6 +24,7 @@ import { CatalogueDeleteDialogComponent } from './catalogue-delete-dialog.compon
 })
 export class CatalogueComponent implements OnInit, OnDestroy {
   catalogues?: ICatalogue[];
+  partners?: IPartners[] | null = null;
   eventSubscriber?: Subscription;
   searchMode: any = false;
   currentSearch: string;
@@ -30,13 +37,21 @@ export class CatalogueComponent implements OnInit, OnDestroy {
   categories: string[] = ['Show All', 'Dance', 'HIIT', 'Pilates', 'Spin', 'Swimming', 'Yoga'];
   searchField: any = '';
   categorySearch: any = '';
+  account: Account | null = null;
+  authSubscription?: Subscription;
+  partnerIdValue: any = '';
+  companyCategoryList: any[] = ['Show All', 'Dance', 'HIIT', 'Pilates', 'Spin', 'Swimming', 'Yoga'];
+  i: any;
+  childElements: any;
 
   constructor(
     protected catalogueService: CatalogueService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
     protected eventManager: JhiEventManager,
-    protected modalService: NgbModal
+    protected modalService: NgbModal,
+    private accountService: AccountService,
+    protected partnersService: PartnersService
   ) {
     this.currentSearch =
       this.activatedRoute.snapshot && this.activatedRoute.snapshot.queryParams['search']
@@ -99,6 +114,9 @@ export class CatalogueComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.handleNavigation();
     this.registerChangeInCatalogues();
+    this.authSubscription = this.accountService.getAuthenticationState().subscribe(account => (this.account = account));
+    this.activatedRoute.data.subscribe(({ partners }) => (this.partners = partners));
+    this.partnersService.query().subscribe((res: HttpResponse<IPartners[]>) => (this.partners = res.body || []));
   }
 
   protected handleNavigation(): void {
@@ -179,5 +197,29 @@ export class CatalogueComponent implements OnInit, OnDestroy {
     }
 
     this.loadPage(1);
+  }
+
+  companySelection(): void {
+    console.warn('id: ' + this.partnerIdValue);
+    console.warn(this.catalogues);
+    this.companyCategoryList = [];
+
+    for (this.i = 0; this.i < this.catalogues!.length; this.i++) {
+      if (this.catalogues![this.i].partnerId === this.partnerIdValue) {
+        console.warn(this.catalogues![this.i].category);
+        if (!this.companyCategoryList.includes(this.catalogues![this.i].category)) {
+          console.warn('not included, add it in');
+          this.companyCategoryList.push(this.catalogues![this.i].category);
+        }
+      }
+    }
+    this.companyCategoryList.push('Show All');
+    console.warn(this.companyCategoryList);
+  }
+
+  clearFilter(): void {
+    this.categorySearch = '';
+    this.partnerIdValue = '';
+    this.companyCategoryList = ['Show All', 'Dance', 'HIIT', 'Pilates', 'Spin', 'Swimming', 'Yoga'];
   }
 }

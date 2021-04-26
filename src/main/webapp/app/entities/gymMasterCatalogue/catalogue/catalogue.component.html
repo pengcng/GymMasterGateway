@@ -1,14 +1,19 @@
 <div class="container-fluid">
     <div class="row">
-    	<div class="col-md-2">
+    	<div class="col-md-3">
+    		<label for="field_partner">Partners</label>
+            <select name="category" id="field_partner" [(ngModel)]="partnerIdValue" (ngModelChange)="companySelection()">
+                <option *ngFor="let partner of partners" [ngValue]="partner.id">{{ partner.companyName }}</option>
+            </select>
   			<h5>Categories</h5><br>
-   				<ul>
-	    			<li class="categoryList" *ngFor="let category of categories" (click)="searchByCategory(category)">
-	    				{{ category }}
-	    			</li>
-    			</ul>
+ 			<ul>
+	   			<li class="categoryList" *ngFor="let category of companyCategoryList" (click)="searchByCategory(category)">
+	   				{{ category }}
+	   			</li>
+   			</ul>
+    		<button type="button" (click)="clearFilter()">Clear filter</button>
 		</div>
-        <div class="col-md-10" style="padding-left: 20px;">
+        <div class="col-md-9" style="padding-left: 20px;">
 		    <h2 id="page-heading">
 		        <span>Catalogues</span>
 		
@@ -40,41 +45,111 @@
                 </div>
             </form>
  
-			<div class="mainCat">
-			    <div class="alert alert-warning" id="no-result" *ngIf="catalogues?.length === 0">
-			        <span>No catalogues found</span>
-			    </div>
-
-				    	<div [ngSwitch]="categorySearch">
-					    	<div *ngSwitchCase="''">
-					    	<ul class="arrangeInColumns">
-				    			<li *ngFor="let catalogue of catalogues ;trackBy: trackId">
-					    		<div class="catElement">
-								    <a [routerLink]="['/catalogue', catalogue.id, 'view']">
-									    <img src="../../../../content/images/sam-moqadam-GC0eSwdO_HM-unsplash.jpg" alt="gym class" width="200"><br>
-									    {{ catalogue.description }}<br>
-									    {{ catalogue.sessionDt }}<br>
-								    </a>
-						    	</div>
-						    	</li>
-						    	</ul>
-					    	</div>
-					    	<div *ngSwitchDefault>
-				    		<ul class="arrangeInColumns">
-				    <li *ngFor="let catalogue of catalogues ;trackBy: trackId">
-				    			
-				    			<div class="catElement" *ngIf="categorySearch.toLowerCase() === catalogue?.category?.toLowerCase()">
-								    <a [routerLink]="['/catalogue', catalogue.id, 'view']">
-									    <img src="../../../../content/images/sam-moqadam-GC0eSwdO_HM-unsplash.jpg" alt="gym class" width="200"><br>
-									    {{ catalogue.description }}<br>
-									    {{ catalogue.sessionDt }}<br>
-								    </a>
-						    	</div>
-						    	</li>
-						    	</ul>
+ 			<ng-container *jhiHasAnyAuthority ="'ROLE_USER'">
+				<div class="mainCat">
+				    <div class="alert alert-warning" id="no-result" *ngIf="catalogues?.length === 0">
+				        <span>No catalogues found</span>
+				    </div>
+				    
+			    	<div [ngSwitch]="categorySearch">
+				    	<div *ngSwitchCase="''">
+				    		<div [ngSwitch]="partnerIdValue">
+				    			<div *ngSwitchCase="''">
+				    				<ul class="arrangeInColumns">
+						    			<li *ngFor="let catalogue of catalogues ;trackBy: trackId">
+								    		<div class="catElement">
+											    <a [routerLink]="['/catalogue', catalogue.id, 'view']">
+												    <img src="../../../../content/images/sam-moqadam-GC0eSwdO_HM-unsplash.jpg" alt="gym class" width="200"><br>
+												    {{ catalogue.description }}<br>
+												    {{ catalogue.sessionDt }}<br>
+											    </a>
+									    	</div>
+								    	</li>
+								    </ul>
+				    			</div>
+				    			<div *ngSwitchDefault>
+				    				<ul class="arrangeInColumns">
+						    			<li *ngFor="let catalogue of catalogues ;trackBy: trackId">
+								    		<div class="catElement" *ngIf="partnerIdValue === catalogue?.partnerId">
+											    <a [routerLink]="['/catalogue', catalogue.id, 'view']">
+												    <img src="../../../../content/images/sam-moqadam-GC0eSwdO_HM-unsplash.jpg" alt="gym class" width="200"><br>
+												    {{ catalogue.description }}<br>
+												    {{ catalogue.sessionDt }}<br>
+											    </a>
+									    	</div>
+								    	</li>
+								    </ul>
+				    			</div>
 				    		</div>
 				    	</div>
-			</div>
+				    	<div *ngSwitchDefault>
+				    		<div [ngSwitch]="partnerIdValue">
+				    			<div *ngSwitchCase="''">
+				    				<ul class="arrangeInColumns">
+								    	<li *ngFor="let catalogue of catalogues ;trackBy: trackId">
+								    		<div class="catElement" *ngIf="categorySearch.toLowerCase() === catalogue?.category?.toLowerCase()">
+								    			<a [routerLink]="['/catalogue', catalogue.id, 'view']">
+											    <img src="../../../../content/images/sam-moqadam-GC0eSwdO_HM-unsplash.jpg" alt="gym class" width="200"><br>
+											    {{ catalogue.description }}<br>
+											    {{ catalogue.sessionDt }}<br>
+								    		</div>
+								    	</li>
+							    	</ul>	
+				    			</div>
+				    			<div *ngSwitchDefault>
+				    				<ul class="arrangeInColumns">
+								    	<li *ngFor="let catalogue of catalogues ;trackBy: trackId">
+								    		<div class="catElement" *ngIf="partnerIdValue === catalogue?.partnerId && categorySearch.toLowerCase() === catalogue?.category?.toLowerCase()">
+								    			<a [routerLink]="['/catalogue', catalogue.id, 'view']">
+											    <img src="../../../../content/images/sam-moqadam-GC0eSwdO_HM-unsplash.jpg" alt="gym class" width="200"><br>
+											    {{ catalogue.description }}<br>
+											    {{ catalogue.sessionDt }}<br>
+								    		</div>
+								    	</li>
+							    	</ul>	
+				    			</div>			    		
+				    		</div>
+			    		</div>
+			    	</div>
+				</div>
+			</ng-container>
+			<ng-container *jhiHasAnyAuthority ="'ROLE_PARTNER'">
+				<div class="mainCat">
+				    <div class="alert alert-warning" id="no-result" *ngIf="catalogues?.length === 0">
+				        <span>No catalogues found</span>
+				    </div>
+	
+			    	<div [ngSwitch]="categorySearch">
+				    	<div *ngSwitchCase="''">
+					    	<ul class="arrangeInColumns">
+				    			<li *ngFor="let catalogue of catalogues ;trackBy: trackId">
+						    		<div class="catElement" *ngIf="account?.login?.toLowerCase() === catalogue?.username?.toLowerCase()">
+									    <a [routerLink]="['/catalogue', catalogue.id, 'view']">
+										    <img src="../../../../content/images/sam-moqadam-GC0eSwdO_HM-unsplash.jpg" alt="gym class" width="200"><br>
+										    {{ catalogue.description }}<br>
+										    {{ catalogue.sessionDt }}<br>
+									    </a>
+							    	</div>
+						    	</li>
+						    </ul>
+				    	</div>
+				    	<div *ngSwitchDefault>
+				    		<ul class="arrangeInColumns">
+							    <li *ngFor="let catalogue of catalogues ;trackBy: trackId">
+							    			
+					    			<div class="catElement" *ngIf="categorySearch.toLowerCase() === catalogue?.category?.toLowerCase() && account?.login?.toLowerCase() === catalogue?.username?.toLowerCase()">
+									    <a [routerLink]="['/catalogue', catalogue.id, 'view']">
+										    <img src="../../../../content/images/sam-moqadam-GC0eSwdO_HM-unsplash.jpg" alt="gym class" width="200"><br>
+										    {{ catalogue.description }}<br>
+										    {{ catalogue.sessionDt }}<br>
+									    </a>
+							    	</div>
+								</li>
+					    	</ul>
+			    		</div>
+			    	</div>
+				</div>
+			</ng-container>
 			<div *ngIf="catalogues && catalogues.length > 0">
 		        <div class="row justify-content-center">
 		            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>

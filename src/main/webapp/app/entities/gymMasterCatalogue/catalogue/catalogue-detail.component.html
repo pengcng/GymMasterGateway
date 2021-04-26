@@ -12,10 +12,6 @@
                 <dd>
                     <span>{{ catalogue.description }}</span>
                 </dd>
-                <dt><span>Partner Id</span></dt>
-                <dd>
-                    <span>{{ catalogue.partnerId }}</span>
-                </dd>
                 <dt><span>Price</span></dt>
                 <dd>
                     <span>{{ catalogue.price }}</span>
@@ -32,6 +28,14 @@
                 <dd>
                     <span>{{ catalogue.category }}</span>
                 </dd>
+                <dt><span>Username</span></dt>
+                <dd>
+                    <span>{{ catalogue.username }}</span>
+                </dd>
+                <dt><span>Partner Id</span></dt>
+                <dd>
+                    <span>{{ catalogue.partnerId }}</span>
+                </dd>
             </dl>
 
             <button type="submit"
@@ -45,8 +49,8 @@
                     class="btn btn-primary">
                 <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
             </button>
-            
-            <button type="button"
+
+			<button type="button"
                     (click)="toBookingUrl()"
                     class="btn btn-primary">
                 <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Book</span>

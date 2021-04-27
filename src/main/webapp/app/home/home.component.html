@@ -8,14 +8,14 @@
 				        <span>No catalogues found</span>
 				    </div>
 				    
-				    <ul>
+				    <ul class="arrangeInColumns">
 					    <li *ngFor="let catalogue of catalogues ;trackBy: trackId">
 						    <div class="catElement">
 							    <table>
 								    <a [routerLink]="['/catalogue', catalogue.id, 'view']">
 									    <tr><td><img src="../../content/images/sam-moqadam-GC0eSwdO_HM-unsplash.jpg" alt="gym class" width="200"></td></tr>
 									    <tr><td>{{ catalogue.description }}</td></tr>
-									    <tr><td>{{ catalogue.sessionDt }}</td></tr>
+									    <tr><td>{{ catalogue.sessionDt | date:'fullDate' }}</td></tr>
 								    </a>
 							    </table>
 						    </div>

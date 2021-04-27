@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
-import { ActivatedRoute, ParamMap, Router, Data } from '@angular/router';
+import { ActivatedRoute, Router, ParamMap, Data } from '@angular/router';
 import { Subscription, combineLatest } from 'rxjs';
 import { JhiEventManager } from 'ng-jhipster';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -202,7 +202,7 @@ export class CatalogueComponent implements OnInit, OnDestroy {
   companySelection(): void {
     console.warn('id: ' + this.partnerIdValue);
     console.warn(this.catalogues);
-    this.companyCategoryList = [];
+    this.companyCategoryList = ['Show All'];
 
     for (this.i = 0; this.i < this.catalogues!.length; this.i++) {
       if (this.catalogues![this.i].partnerId === this.partnerIdValue) {
@@ -213,7 +213,6 @@ export class CatalogueComponent implements OnInit, OnDestroy {
         }
       }
     }
-    this.companyCategoryList.push('Show All');
     console.warn(this.companyCategoryList);
   }
 

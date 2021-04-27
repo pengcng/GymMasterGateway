@@ -12,13 +12,21 @@ Main page styles
 }
 
 .introbox {
-  background-color: #000000;
+  background: rgb(0, 0, 0, 0.45);
   color: #ffffff;
   font-size: 20px;
-  opacity: 45%;
   margin: auto;
   padding: 10px;
   text-align: center;
+}
+
+.arrangeInColumns {
+  -webkit-column-count: 4;
+  -moz-column-count: 4;
+  columns: 4;
+  list-style-type: none;
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0;
 }
 
 /* wait autoprefixer update to allow simple generation of high pixel density media query */

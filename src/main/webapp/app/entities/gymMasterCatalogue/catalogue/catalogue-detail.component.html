@@ -8,6 +8,7 @@
             <jhi-alert-error></jhi-alert-error>
 
             <dl class="row-md jh-entity-details">
+				<img src="../../../../content/images/sam-moqadam-GC0eSwdO_HM-unsplash.jpg" alt="gym class" width="500"><br>
                 <dt><span>Description</span></dt>
                 <dd>
                     <span>{{ catalogue.description }}</span>
@@ -22,7 +23,7 @@
                 </dd>
                 <dt><span>Session Dt</span></dt>
                 <dd>
-                    <span>{{ catalogue.sessionDt }}</span>
+                    <span>{{ catalogue.sessionDt | date:'fullDate' }}</span>
                 </dd>
                 <dt><span>Category</span></dt>
                 <dd>
@@ -44,13 +45,13 @@
                 <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
             </button>
 
-            <button type="button"
+            <button type="button" *jhiHasAnyAuthority ="['ROLE_PARTNER', 'ROLE_ADMIN']"
                     [routerLink]="['/catalogue', catalogue.id, 'edit']"
                     class="btn btn-primary">
                 <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
             </button>
 
-			<button type="button"
+			<button type="button" *jhiHasAnyAuthority ="['ROLE_USER', 'ROLE_ADMIN']"
                     (click)="toBookingUrl()"
                     class="btn btn-primary">
                 <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Book</span>

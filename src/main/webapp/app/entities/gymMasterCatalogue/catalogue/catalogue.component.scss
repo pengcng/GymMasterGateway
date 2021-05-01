@@ -1,0 +1,42 @@
+.mainCat {
+  margin-top: 50px;
+}
+
+.arrangeInColumns {
+  -webkit-column-count: 3;
+  -moz-column-count: 3;
+  columns: 3;
+  list-style-type: none;
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0;
+}
+
+.catElement {
+  padding: 10px;
+  text-align: center;
+  margin: 0 auto;
+  color: #000000;
+}
+
+.catElement:hover {
+  border: 1px solid black;
+}
+
+.sideColumn {
+  background-color: #000000;
+  color: #ffffff;
+  opacity: 45%;
+  text-align: center;
+}
+
+.categoryList {
+  list-style-type: none;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.categoryList:hover {
+  color: #4089c1;
+  cursor: pointer;
+  text-decoration: underline;
+}

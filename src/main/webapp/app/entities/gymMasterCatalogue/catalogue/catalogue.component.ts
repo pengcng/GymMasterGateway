@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
-import { ActivatedRoute, ParamMap, Router, Data } from '@angular/router';
+import { ActivatedRoute, Router, ParamMap, Data } from '@angular/router';
 import { Subscription, combineLatest } from 'rxjs';
 import { JhiEventManager } from 'ng-jhipster';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -11,13 +11,22 @@ import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { CatalogueService } from './catalogue.service';
 import { CatalogueDeleteDialogComponent } from './catalogue-delete-dialog.component';
 
+import { AccountService } from 'app/core/auth/account.service';
+import { Account } from 'app/core/user/account.model';
+
+import { IPartners } from 'app/shared/model/gymmasterapppartners/partners.model';
+import { PartnersService } from 'app/entities/gymmasterapppartners/partners/partners.service';
+
 @Component({
   selector: 'jhi-catalogue',
   templateUrl: './catalogue.component.html',
+  styleUrls: ['catalogue.component.scss'],
 })
 export class CatalogueComponent implements OnInit, OnDestroy {
   catalogues?: ICatalogue[];
+  partners?: IPartners[] | null = null;
   eventSubscriber?: Subscription;
+  searchMode: any = false;
   currentSearch: string;
   totalItems = 0;
   itemsPerPage = ITEMS_PER_PAGE;
@@ -25,13 +34,24 @@ export class CatalogueComponent implements OnInit, OnDestroy {
   predicate!: string;
   ascending!: boolean;
   ngbPaginationPage = 1;
+  categories: string[] = ['Show All', 'Dance', 'HIIT', 'Pilates', 'Spin', 'Swimming', 'Yoga'];
+  searchField: any = '';
+  categorySearch: any = '';
+  account: Account | null = null;
+  authSubscription?: Subscription;
+  partnerIdValue: any = '';
+  companyCategoryList: any[] = ['Show All', 'Dance', 'HIIT', 'Pilates', 'Spin', 'Swimming', 'Yoga'];
+  i: any;
+  childElements: any;
 
   constructor(
     protected catalogueService: CatalogueService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
     protected eventManager: JhiEventManager,
-    protected modalService: NgbModal
+    protected modalService: NgbModal,
+    private accountService: AccountService,
+    protected partnersService: PartnersService
   ) {
     this.currentSearch =
       this.activatedRoute.snapshot && this.activatedRoute.snapshot.queryParams['search']
@@ -41,8 +61,22 @@ export class CatalogueComponent implements OnInit, OnDestroy {
 
   loadPage(page?: number, dontNavigate?: boolean): void {
     const pageToLoad: number = page || this.page || 1;
-
-    if (this.currentSearch) {
+    if (this.searchField !== '') {
+      console.warn('entered categorySearch with searchField ' + this.searchField);
+      this.catalogueService
+        .search({
+          page: pageToLoad - 1,
+          query: this.currentSearch,
+          size: this.itemsPerPage,
+          sort: this.sort(),
+        })
+        .subscribe(
+          (res: HttpResponse<ICatalogue[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
+          () => this.onError()
+        );
+      return;
+    } else if (this.currentSearch) {
+      console.warn('entered normal search with query ' + this.currentSearch);
       this.catalogueService
         .search({
           page: pageToLoad - 1,
@@ -71,12 +105,18 @@ export class CatalogueComponent implements OnInit, OnDestroy {
 
   search(query: string): void {
     this.currentSearch = query;
+    if (query === '') {
+      this.searchMode = false;
+    } else this.searchMode = true;
     this.loadPage(1);
   }
 
   ngOnInit(): void {
     this.handleNavigation();
     this.registerChangeInCatalogues();
+    this.authSubscription = this.accountService.getAuthenticationState().subscribe(account => (this.account = account));
+    this.activatedRoute.data.subscribe(({ partners }) => (this.partners = partners));
+    this.partnersService.query().subscribe((res: HttpResponse<IPartners[]>) => (this.partners = res.body || []));
   }
 
   protected handleNavigation(): void {
@@ -142,5 +182,43 @@ export class CatalogueComponent implements OnInit, OnDestroy {
 
   protected onError(): void {
     this.ngbPaginationPage = this.page ?? 1;
+  }
+
+  searchByCategory(cat: any): void {
+    console.warn('filter by: ' + cat);
+    if (cat !== 'Show All') {
+      console.warn('cat !== Show All');
+      this.categorySearch = cat;
+      this.searchMode = false;
+    } else {
+      console.warn('cat === Show All');
+      this.categorySearch = '';
+      this.searchMode = false;
+    }
+
+    this.loadPage(1);
+  }
+
+  companySelection(): void {
+    console.warn('id: ' + this.partnerIdValue);
+    console.warn(this.catalogues);
+    this.companyCategoryList = ['Show All'];
+
+    for (this.i = 0; this.i < this.catalogues!.length; this.i++) {
+      if (this.catalogues![this.i].partnerId === this.partnerIdValue) {
+        console.warn(this.catalogues![this.i].category);
+        if (!this.companyCategoryList.includes(this.catalogues![this.i].category)) {
+          console.warn('not included, add it in');
+          this.companyCategoryList.push(this.catalogues![this.i].category);
+        }
+      }
+    }
+    console.warn(this.companyCategoryList);
+  }
+
+  clearFilter(): void {
+    this.categorySearch = '';
+    this.partnerIdValue = '';
+    this.companyCategoryList = ['Show All', 'Dance', 'HIIT', 'Pilates', 'Spin', 'Swimming', 'Yoga'];
   }
 }

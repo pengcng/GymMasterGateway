@@ -9,6 +9,7 @@ import { ICatalogue } from 'app/shared/model/gymMasterCatalogue/catalogue.model'
 })
 export class CatalogueDetailComponent implements OnInit {
   catalogue: ICatalogue | null = null;
+  url: any;
 
   constructor(protected activatedRoute: ActivatedRoute) {}
 
@@ -18,5 +19,11 @@ export class CatalogueDetailComponent implements OnInit {
 
   previousState(): void {
     window.history.back();
+  }
+
+  toBookingUrl(): void {
+    this.url = 'http://' + window.location.hostname + ':5000/booking/new#' + this.catalogue!.id;
+    console.warn('url= ' + this.url);
+    window.open(this.url);
   }
 }

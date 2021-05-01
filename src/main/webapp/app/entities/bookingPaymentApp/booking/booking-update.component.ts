@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
@@ -16,6 +16,11 @@ import { BookingService } from './booking.service';
 })
 export class BookingUpdateComponent implements OnInit {
   isSaving = false;
+  href: any = '';
+  splitted: any[] = [];
+  catId: any = '';
+  catPrice: any = '';
+  catIdInput: any = '';
 
   editForm = this.fb.group({
     id: [],
@@ -25,13 +30,28 @@ export class BookingUpdateComponent implements OnInit {
     bookingDt: [],
   });
 
-  constructor(protected bookingService: BookingService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {}
+  constructor(
+    protected bookingService: BookingService,
+    protected activatedRoute: ActivatedRoute,
+    private fb: FormBuilder,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ booking }) => {
       if (!booking.id) {
         const today = moment().startOf('day');
         booking.bookingDt = today;
+
+        this.href = this.router.url;
+        console.warn(this.router.url);
+        this.splitted = this.href.split('#');
+        console.warn(this.splitted);
+        this.catId = this.splitted[1];
+        console.warn('catId = ' + this.catId);
+        this.catPrice = this.splitted[2];
+        console.warn('catPrice = ' + this.catPrice);
+        this.catIdInput = this.catId;
       }
 
       this.updateForm(booking);
@@ -49,7 +69,7 @@ export class BookingUpdateComponent implements OnInit {
   }
 
   previousState(): void {
-    window.history.back();
+    window.close();
   }
 
   save(): void {
@@ -82,7 +102,8 @@ export class BookingUpdateComponent implements OnInit {
 
   protected onSaveSuccess(): void {
     this.isSaving = false;
-    this.previousState();
+    console.warn('navigate to booking page now');
+    this.router.navigate(['/booking']);
   }
 
   protected onSaveError(): void {

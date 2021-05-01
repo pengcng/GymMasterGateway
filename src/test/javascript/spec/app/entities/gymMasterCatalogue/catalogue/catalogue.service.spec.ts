@@ -4,6 +4,7 @@ import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { CatalogueService } from 'app/entities/gymMasterCatalogue/catalogue/catalogue.service';
 import { ICatalogue, Catalogue } from 'app/shared/model/gymMasterCatalogue/catalogue.model';
+import { categoryEnum } from 'app/shared/model/enumerations/category-enum.model';
 
 describe('Service Tests', () => {
   describe('Catalogue Service', () => {
@@ -24,7 +25,7 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new Catalogue(0, 'AAAAAAA', 0, 0, 0, currentDate, 'AAAAAAA');
+      elemDefault = new Catalogue(0, 'AAAAAAA', 0, 0, currentDate, categoryEnum.HIIT, 'AAAAAAA', 0);
     });
 
     describe('Service methods', () => {
@@ -70,11 +71,12 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             description: 'BBBBBB',
-            partnerId: 1,
             price: 1,
             duration: 1,
             sessionDt: currentDate.format(DATE_TIME_FORMAT),
             category: 'BBBBBB',
+            username: 'BBBBBB',
+            partnerId: 1,
           },
           elemDefault
         );
@@ -97,11 +99,12 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             description: 'BBBBBB',
-            partnerId: 1,
             price: 1,
             duration: 1,
             sessionDt: currentDate.format(DATE_TIME_FORMAT),
             category: 'BBBBBB',
+            username: 'BBBBBB',
+            partnerId: 1,
           },
           elemDefault
         );

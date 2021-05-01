@@ -19,16 +19,13 @@
 
                 <div class="form-group">
                     <label class="form-control-label" for="field_partnerId">Partner Id</label>
-                    <input type="number" class="form-control" name="partnerId" id="field_partnerId"
-                           formControlName="partnerId"/>
+					<select class="form-control" name="partnerId" formControlName="partnerId" id="field_partnerId">
+						<option *ngFor="let partner of partners" [ngValue]="partner.id">{{ partner.companyName }}</option>
+					</select>
                     <div *ngIf="editForm.get('partnerId')!.invalid && (editForm.get('partnerId')!.dirty || editForm.get('partnerId')!.touched)">
                         <small class="form-text text-danger"
                                *ngIf="editForm.get('partnerId')?.errors?.required">
                         This field is required.
-                        </small>
-                        <small class="form-text text-danger"
-                            [hidden]="!editForm.get('partnerId')?.errors?.number">
-                            This field should be a number.
                         </small>
                     </div>
                 </div>
@@ -75,12 +72,25 @@
                 <div class="form-group">
                     <label class="form-control-label" for="field_category">Category</label>
                     <select class="form-control" name="category" formControlName="category" id="field_category">
-					<option value="HI">HIIT</option>
-					<option value="PI">Pilates</option>
-					<option value="SP">Spin</option>
-					<option value="SW">Swimming</option>
-					<option value="YO">Yoga</option>
+					<option value="DANCE">Dance</option>
+					<option value="HIIT">HIIT</option>
+					<option value="PILATES">Pilates</option>
+					<option value="SPIN">Spin</option>
+					<option value="SWIMMING">Swimming</option>
+					<option value="YOGA">Yoga</option>
 					</select>
+                </div>
+
+				<div class="form-group">
+                    <label class="form-control-label" for="field_username">Username</label>
+                    <input type="text" class="form-control" name="username" id="field_username"
+                           formControlName="username" [(ngModel)]="accountLogin" readonly/>
+                    <div *ngIf="editForm.get('username')!.invalid && (editForm.get('username')!.dirty || editForm.get('username')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('username')?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
                 </div>
             </div>
 

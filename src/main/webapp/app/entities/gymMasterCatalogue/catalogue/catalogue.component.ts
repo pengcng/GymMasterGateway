@@ -61,12 +61,13 @@ export class CatalogueComponent implements OnInit, OnDestroy {
 
   loadPage(page?: number, dontNavigate?: boolean): void {
     const pageToLoad: number = page || this.page || 1;
-    if (this.searchField !== '') {
-      console.warn('entered categorySearch with searchField ' + this.searchField);
+    console.warn('test test test ' + this.categorySearch);
+    if (this.categorySearch !== '') {
+      console.warn('entered categorySearch with searchField ' + this.categorySearch);
       this.catalogueService
         .search({
           page: pageToLoad - 1,
-          query: this.currentSearch,
+          query: this.categorySearch,
           size: this.itemsPerPage,
           sort: this.sort(),
         })
@@ -74,6 +75,7 @@ export class CatalogueComponent implements OnInit, OnDestroy {
           (res: HttpResponse<ICatalogue[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
           () => this.onError()
         );
+        console.warn('test test test step 1');
       return;
     } else if (this.currentSearch) {
       console.warn('entered normal search with query ' + this.currentSearch);
@@ -167,14 +169,29 @@ export class CatalogueComponent implements OnInit, OnDestroy {
     this.page = page;
     this.ngbPaginationPage = this.page;
     if (navigate) {
-      this.router.navigate(['/catalogue'], {
-        queryParams: {
-          page: this.page,
-          size: this.itemsPerPage,
-          search: this.currentSearch,
-          sort: this.predicate + ',' + (this.ascending ? 'asc' : 'desc'),
-        },
-      });
+      if(this.currentSearch)
+      {
+        this.router.navigate(['/catalogue'], {
+          queryParams: {
+            page: this.page,
+            size: this.itemsPerPage,
+            search: this.currentSearch,
+            sort: this.predicate + ',' + (this.ascending ? 'asc' : 'desc'),
+          },
+        });
+      }
+      else if(this.categorySearch)
+      {
+        console.warn('test test test step 2');
+         this.router.navigate(['/catalogue'], {
+          queryParams: {
+            page: this.page,
+            size: this.itemsPerPage,
+            search: this.categorySearch,
+            sort: this.predicate + ',' + (this.ascending ? 'asc' : 'desc'),
+          },
+        });
+      }      
     }
     this.catalogues = data || [];
     this.ngbPaginationPage = this.page;

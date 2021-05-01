@@ -152,7 +152,7 @@
                         <ng-container *ngFor="let partnersOption of partners; trackBy: trackById">
                             <ng-container *ngIf="account">
                                 <ng-container *ngIf="partnersOption.userName === account.login">
-                                    <input type="text" [ngValue]="partnersOption.id">{{ partnersOption.companyName }}</option>
+                                    <option [ngValue]="partnersOption.id">{{ partnersOption.companyName }}</option>
                                 </ng-container>
                             </ng-container>
                         </ng-container>

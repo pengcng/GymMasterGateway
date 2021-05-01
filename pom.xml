@@ -687,12 +687,12 @@
                         <changeLogFile>${project.basedir}/src/main/resources/config/liquibase/master.xml</changeLogFile>
                         <diffChangeLogFile>${project.basedir}/src/main/resources/config/liquibase/changelog/${maven.build.timestamp}_changelog.xml</diffChangeLogFile>
                         <driver>oracle.jdbc.OracleDriver</driver>
-                        <url>jdbc:oracle:thin:@localhost:1521:orcl</url>
+                        <url>jdbc:oracle:thin:@localhost:1521:orcl1</url>
                         <defaultSchemaName>gymgateway</defaultSchemaName>
                         <username>gymgateway</username>
                         <password>password123</password>
                         <referenceUrl>hibernate:spring:com.gymmastergateway.app.domain?dialect=org.hibernate.dialect.Oracle12cDialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy</referenceUrl>
-                        <verbose>true</verbose>app
+                        <verbose>true</verbose>
                         <logging>debug</logging>
                         <contexts>!test</contexts>
                     </configuration>

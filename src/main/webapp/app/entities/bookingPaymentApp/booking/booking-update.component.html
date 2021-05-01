@@ -65,6 +65,12 @@
                 <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
                     <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
                 </button>
+
+                <button type="button"
+                        (click)="toPaymentUrl()"
+                        class="btn btn-primary">
+                    <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Proceed to Payment</span>
+                </button>
             </div>
         </form>
     </div>

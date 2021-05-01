@@ -8,6 +8,7 @@ export interface IPayment {
   tranDt?: Moment;
   tranStatus?: TranStatus;
   receiptNo?: string;
+  point?: number;
   bookingId?: number;
 }
 
@@ -18,6 +19,7 @@ export class Payment implements IPayment {
     public tranDt?: Moment,
     public tranStatus?: TranStatus,
     public receiptNo?: string,
+    public point?: number,
     public bookingId?: number
   ) {}
 }

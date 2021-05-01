@@ -9,6 +9,7 @@ import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 
 import { IBooking, Booking } from 'app/shared/model/bookingPaymentApp/booking.model';
 import { BookingService } from './booking.service';
+import { ICatalogue } from 'app/shared/model/gymMasterCatalogue/catalogue.model';
 
 @Component({
   selector: 'jhi-booking-update',
@@ -19,7 +20,11 @@ export class BookingUpdateComponent implements OnInit {
   href: any = '';
   splitted: any[] = [];
   catId: any = '';
+  catPrice: any = '';
   catIdInput: any = '';
+  booking: IBooking | null = null;
+  catalogue: ICatalogue | null = null;
+  url: any;
 
   editForm = this.fb.group({
     id: [],
@@ -49,6 +54,8 @@ export class BookingUpdateComponent implements OnInit {
         console.warn(this.splitted);
         this.catId = this.splitted[1];
         console.warn('catId = ' + this.catId);
+        this.catPrice = this.splitted[2];
+        console.warn('catPrice = ' + this.catPrice);
         this.catIdInput = this.catId;
       }
 
@@ -77,7 +84,7 @@ export class BookingUpdateComponent implements OnInit {
     if (booking.id !== undefined) {
       this.subscribeToSaveResponse(this.bookingService.update(booking));
     } else {
-      this.subscribeToSaveResponse(this.bookingService.create(booking));
+      this.subscribeToSaveResponseToPayment(this.bookingService.create(booking));
     }
   }
 
@@ -95,8 +102,19 @@ export class BookingUpdateComponent implements OnInit {
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IBooking>>): void {
     result.subscribe(
-      () => this.onSaveSuccess(),
+      () => this.onSaveSuccessPayment(),
       () => this.onSaveError()
+    );
+  }
+
+  protected subscribeToSaveResponseToPayment(result: Observable<HttpResponse<IBooking>>): void {
+    result.subscribe(
+      res => {
+        console.warn('bookingid:' + res.body);
+      },
+      err => {
+        () => this.onSaveError();
+      }
     );
   }
 
@@ -106,7 +124,17 @@ export class BookingUpdateComponent implements OnInit {
     this.router.navigate(['/booking']);
   }
 
+  protected onSaveSuccessPayment(): void {
+    this.isSaving = false;
+    console.warn('navigate to payment page now');
+    this.router.navigate(['/payment/new', this.editForm.get(['id'])!.value, this.catPrice]);
+  }
+
   protected onSaveError(): void {
     this.isSaving = false;
+  }
+
+  toPaymentUrl(): void {
+    this.save();
   }
 }

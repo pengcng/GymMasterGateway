@@ -37,9 +37,15 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" for="field_receiptNo">Receipt No</label>
+                    <label class="form-control-label">Receipt No</label>
                     <input type="text" class="form-control" name="receiptNo" id="field_receiptNo"
                            formControlName="receiptNo"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_point">Point</label>
+                    <input type="number" class="form-control" name="point" id="field_point"
+                           formControlName="point"/>
                 </div>
 
                 <div class="form-group">
@@ -58,6 +64,16 @@
 
                 <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
                     <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+
+            <div>
+                <button type="button" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel Payment</span>
+                </button>
+
+                <button type="submit" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span>Confirm Payment</span>
                 </button>
             </div>
         </form>

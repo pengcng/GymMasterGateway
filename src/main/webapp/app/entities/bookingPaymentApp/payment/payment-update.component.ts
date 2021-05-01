@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { Observable } from 'rxjs';
+import { Subscription, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
@@ -12,6 +13,8 @@ import { IPayment, Payment } from 'app/shared/model/bookingPaymentApp/payment.mo
 import { PaymentService } from './payment.service';
 import { IBooking } from 'app/shared/model/bookingPaymentApp/booking.model';
 import { BookingService } from 'app/entities/bookingPaymentApp/booking/booking.service';
+import { AccountService } from 'app/core/auth/account.service';
+import { Account } from 'app/core/user/account.model';
 
 @Component({
   selector: 'jhi-payment-update',
@@ -20,6 +23,9 @@ import { BookingService } from 'app/entities/bookingPaymentApp/booking/booking.s
 export class PaymentUpdateComponent implements OnInit {
   isSaving = false;
   bookings: IBooking[] = [];
+  account: Account | null = null;
+  eventSubscriber?: Subscription;
+  authSubscription?: Subscription;
 
   editForm = this.fb.group({
     id: [],
@@ -27,10 +33,19 @@ export class PaymentUpdateComponent implements OnInit {
     tranDt: [],
     tranStatus: [],
     receiptNo: [],
+    point: [],
     bookingId: [],
   });
 
+  messageid: any = '';
+  messageTitle: any = '';
+  messageDesc: any = '';
+  messageDesc1: any = '';
+  messageDesc2: any = '';
+  messageDesc4: any = '';
+
   constructor(
+    private accountService: AccountService,
     protected paymentService: PaymentService,
     protected bookingService: BookingService,
     protected activatedRoute: ActivatedRoute,
@@ -38,6 +53,16 @@ export class PaymentUpdateComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    //    this.activatedRoute.params.subscribe((params: Params) => {
+    //      this.messageid = params['catalogueId'];
+    //      this.messageTitle = params['customerId'];
+    //      this.messageDesc = params['customerId'];
+    //      this.messageDesc1 = params['bookingDt'];
+    //      this.messageDesc2 = params['userName'];
+    //      this.messageDesc4 = params['price'];
+    //   });
+    this.authSubscription = this.accountService.getAuthenticationState().subscribe(account => (this.account = account));
+
     this.activatedRoute.data.subscribe(({ payment }) => {
       if (!payment.id) {
         const today = moment().startOf('day');
@@ -77,6 +102,7 @@ export class PaymentUpdateComponent implements OnInit {
       tranDt: payment.tranDt ? payment.tranDt.format(DATE_TIME_FORMAT) : null,
       tranStatus: payment.tranStatus,
       receiptNo: payment.receiptNo,
+      point: payment.point,
       bookingId: payment.bookingId,
     });
   }
@@ -103,6 +129,7 @@ export class PaymentUpdateComponent implements OnInit {
       tranDt: this.editForm.get(['tranDt'])!.value ? moment(this.editForm.get(['tranDt'])!.value, DATE_TIME_FORMAT) : undefined,
       tranStatus: this.editForm.get(['tranStatus'])!.value,
       receiptNo: this.editForm.get(['receiptNo'])!.value,
+      point: this.editForm.get(['point'])!.value,
       bookingId: this.editForm.get(['bookingId'])!.value,
     };
   }

@@ -20,7 +20,7 @@
                 <div class="form-group">
                     <label class="form-control-label" for="field_partnerId">Partner Id</label>
 					<select class="form-control" name="partnerId" formControlName="partnerId" id="field_partnerId">
-						<option *ngFor="let partner of partners" [ngValue]="partner.id">{{ partner.companyName }}</option>
+						<option *ngFor="let partnersloc of partnerslocs" [ngValue]="partnersloc.id">{{ partnersloc.address }}</option>
 					</select>
                     <div *ngIf="editForm.get('partnerId')!.invalid && (editForm.get('partnerId')!.dirty || editForm.get('partnerId')!.touched)">
                         <small class="form-text text-danger"

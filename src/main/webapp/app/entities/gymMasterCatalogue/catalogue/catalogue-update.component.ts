@@ -16,6 +16,9 @@ import { Account } from 'app/core/user/account.model';
 import { IPartners } from 'app/shared/model/gymmasterapppartners/partners.model';
 import { PartnersService } from 'app/entities/gymmasterapppartners/partners/partners.service';
 
+import { IPartnersloc } from 'app/shared/model/gymmasterapppartners/partnersloc.model';
+import { PartnerslocService } from 'app/entities/gymmasterapppartners/partnersloc/partnersloc.service';
+
 @Component({
   selector: 'jhi-catalogue-update',
   templateUrl: './catalogue-update.component.html',
@@ -26,6 +29,7 @@ export class CatalogueUpdateComponent implements OnInit {
   authSubscription?: Subscription;
   accountLogin: any = '';
   partners?: IPartners[] | null = null;
+  partnerslocs?: IPartnersloc[] | null = null;
 
   editForm = this.fb.group({
     id: [],
@@ -43,7 +47,8 @@ export class CatalogueUpdateComponent implements OnInit {
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder,
     private accountService: AccountService,
-    protected partnersService: PartnersService
+    protected partnersService: PartnersService,
+    protected partnerslocService: PartnerslocService
   ) {}
 
   ngOnInit(): void {
@@ -59,6 +64,9 @@ export class CatalogueUpdateComponent implements OnInit {
     this.accountLogin = this.account!.login;
     this.activatedRoute.data.subscribe(({ partners }) => (this.partners = partners));
     this.partnersService.query().subscribe((res: HttpResponse<IPartners[]>) => (this.partners = res.body || []));
+    this.activatedRoute.data.subscribe(({ partnersloc }) => (this.partnerslocs = partnersloc));
+    this.partnerslocService.query().subscribe((res: HttpResponse<IPartnersloc[]>) => (this.partnerslocs = res.body || []));
+    
   }
 
   updateForm(catalogue: ICatalogue): void {

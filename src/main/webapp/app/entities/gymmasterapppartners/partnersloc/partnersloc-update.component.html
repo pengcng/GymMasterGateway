@@ -69,7 +69,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" for="field_openTime">Open Time</label>
+                    <label class="form-control-label" for="field_openTime">Hours - Opening</label>
                     <div class="d-flex">
                         <input id="field_openTime" type="datetime-local" class="form-control" name="openTime" formControlName="openTime" placeholder="YYYY-MM-DD HH:mm"/>
                     </div>
@@ -86,7 +86,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" for="field_closeTime">Close Time</label>
+                    <label class="form-control-label" for="field_closeTime">Hours - Closing</label>
                     <div class="d-flex">
                         <input id="field_closeTime" type="datetime-local" class="form-control" name="closeTime" formControlName="closeTime" placeholder="YYYY-MM-DD HH:mm"/>
                     </div>
@@ -103,7 +103,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" for="field_pocName">Poc Name</label>
+                    <label class="form-control-label" for="field_pocName">Name of Contact Person</label>
                     <input type="text" class="form-control" name="pocName" id="field_pocName"
                            formControlName="pocName"/>
                     <div *ngIf="editForm.get('pocName')!.invalid && (editForm.get('pocName')!.dirty || editForm.get('pocName')!.touched)">
@@ -115,7 +115,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" for="field_pocNo">Poc No</label>
+                    <label class="form-control-label" for="field_pocNo">Contact Person Phone No.</label>
                     <input type="number" class="form-control" name="pocNo" id="field_pocNo"
                            formControlName="pocNo"/>
                     <div *ngIf="editForm.get('pocNo')!.invalid && (editForm.get('pocNo')!.dirty || editForm.get('pocNo')!.touched)">
@@ -131,7 +131,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" for="field_pocEmail">Poc Email</label>
+                    <label class="form-control-label" for="field_pocEmail">Contact Person Email</label>
                     <input type="text" class="form-control" name="pocEmail" id="field_pocEmail"
                            formControlName="pocEmail"/>
                     <div *ngIf="editForm.get('pocEmail')!.invalid && (editForm.get('pocEmail')!.dirty || editForm.get('pocEmail')!.touched)">
@@ -147,12 +147,12 @@
                 </div>
 
                 <div class="form-group" *jhiHasAnyAuthority ="'ROLE_PARTNER'">
-                    <label class="form-control-label" for="field_partners">Partners</label>
+                    <label class="form-control-label" for="field_partners">Company</label>
                     <select class="form-control" id="field_partners" name="partners" formControlName="partnersId">
                         <ng-container *ngFor="let partnersOption of partners; trackBy: trackById">
                             <ng-container *ngIf="account">
                                 <ng-container *ngIf="partnersOption.userName === account.login">
-                                    <option [ngValue]="partnersOption.id">{{ partnersOption.companyName }}</option>
+                                    <input type="text" [ngValue]="partnersOption.id">{{ partnersOption.companyName }}</option>
                                 </ng-container>
                             </ng-container>
                         </ng-container>

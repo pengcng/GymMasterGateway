@@ -2,7 +2,7 @@
   "generator-jhipster": {
     "promptValues": {
       "packageName": "com.gymmastergateway.app",
-      "microservicePath": "D:\\booking-payment-app"
+      "microservicePath": "D:\\Workspace\\gym-master-app-customer"
     },
     "jhipsterVersion": "6.10.5",
     "applicationType": "gateway",

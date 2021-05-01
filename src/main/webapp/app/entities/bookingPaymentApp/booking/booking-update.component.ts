@@ -127,7 +127,7 @@ export class BookingUpdateComponent implements OnInit {
   protected onSaveSuccessPayment(): void {
     this.isSaving = false;
     console.warn('navigate to payment page now');
-    this.router.navigate(['/payment/new', this.editForm.get(['id'])!.value, this.catPrice]);
+    this.router.navigate(['/payment/new', this.editForm.get(['id'])!.value, this.catPri / booking - update.component.tsce]);
   }
 
   protected onSaveError(): void {

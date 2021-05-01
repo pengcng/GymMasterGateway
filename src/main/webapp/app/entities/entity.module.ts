@@ -25,6 +25,10 @@ import { RouterModule } from '@angular/router';
         path: 'catalogue',
         loadChildren: () => import('./gymMasterCatalogue/catalogue/catalogue.module').then(m => m.GymMasterCatalogueCatalogueModule),
       },
+      {
+        path: 'customer',
+        loadChildren: () => import('./gymmastercustomer/customer/customer.module').then(m => m.GymmastercustomerCustomerModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

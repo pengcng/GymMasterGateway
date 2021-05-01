@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription, combineLatest } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
-import { ActivatedRoute, ParamMap, Router, Data } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { JhiEventManager } from 'ng-jhipster';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -19,9 +19,8 @@ import { CatalogueService } from 'app/entities/gymMasterCatalogue/catalogue/cata
 })
 export class HomeComponent implements OnInit, OnDestroy {
   account: Account | null = null;
-  catalogue: ICatalogue | null = null;
   authSubscription?: Subscription;
-  catalogues?: ICatalogue[];
+  catalogues?: ICatalogue[] | null = null;
   eventSubscriber?: Subscription;
   currentSearch: string;
   totalItems = 0;
@@ -30,6 +29,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   predicate!: string;
   ascending!: boolean;
   ngbPaginationPage = 1;
+  personalisedCat: any[] = [];
+  i: any;
 
   constructor(
     private accountService: AccountService,
@@ -48,6 +49,10 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.authSubscription = this.accountService.getAuthenticationState().subscribe(account => (this.account = account));
+    this.activatedRoute.data.subscribe(({ catalogues }) => (this.catalogues = catalogues));
+    this.catalogueService.query().subscribe((res: HttpResponse<ICatalogue[]>) => (this.catalogues = res.body || []));
+
+    //	this.personalise();
   }
 
   isAuthenticated(): boolean {
@@ -67,21 +72,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   trackId(index: number, item: ICatalogue): number {
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
     return item.id!;
-  }
-
-  loadPage(page?: number, dontNavigate?: boolean): void {
-    const pageToLoad: number = page || this.page || 1;
-
-    this.catalogueService
-      .query({
-        page: pageToLoad - 1,
-        size: this.itemsPerPage,
-        sort: this.sort(),
-      })
-      .subscribe(
-        (res: HttpResponse<ICatalogue[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
-        () => this.onError()
-      );
   }
 
   sort(): string[] {
@@ -113,4 +103,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   protected onError(): void {
     this.ngbPaginationPage = this.page ?? 1;
   }
+
+  //  personalise(): void {
+  //	console.warn("catalogues: " + this.catalogues);
+  //	for (this.i = 0; this.i < this.catalogues!.length; this.i++) {
+  //		this.personalisedCat.push(this.catalogues![this.i]);
+  //	}
+  //	console.warn("personalisedCat" + this.personalisedCat);
+  //  }
 }

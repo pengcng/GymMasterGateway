@@ -1,68 +1,82 @@
-<div class="row justify-content-center">
-    <div class="col-8">
-        <div *ngIf="partnersloc">
-            <h2><span>Partnersloc</span> {{ partnersloc.id }}</h2>
+<div class="container">
+    <div *ngIf="partnersloc">
+                <h2><span>Partner Gym Location Details</span></h2>
 
-            <hr>
+                <hr>
 
-            <jhi-alert-error></jhi-alert-error>
+                <jhi-alert-error></jhi-alert-error>
+    </div>
+    <div class="row justify-content-left">
+        <div class="col-md">
+            <div *ngIf="partnersloc"> 
+                <dl class="row-md jh-entity-details">
+                    <dt><span>Company:</span></dt>
+                    <dd>
+                        <div *ngIf="partnersloc.partnersId">
+                            <a [routerLink]="['/partners', partnersloc.partnersId, 'view']">{{ partnersloc.partnersCompanyName }}</a>
+                        </div>
+                    </dd>
+                    <dt><span>Region:</span></dt>
+                    <dd>                    
+                        <span *ngIf= "partnersloc.region==='C'">Central</span>
+                        <span *ngIf= "partnersloc.region==='E'">East</span>
+                        <span *ngIf= "partnersloc.region==='N'">North</span>
+                        <span *ngIf= "partnersloc.region==='NE'">North East</span>
+                        <span *ngIf= "partnersloc.region==='W'">West</span>
+                    </dd>
+                    <dt><span>Gym Address:</span></dt>
+                    <dd>
+                        <span>{{ partnersloc.address }}</span>
+                    </dd>
+                    <dt><span>Postal Code</span></dt>
+                    <dd>
+                        Singapore <span>{{ partnersloc.postalCode }}</span>
+                    </dd>                    
+                    <dt><span>Hours - Opening:</span></dt>
+                    <dd>
+                        <span>{{ partnersloc.openTime | date:'shortTime' }}</span>
+                    </dd>
+                    <dt><span>Hours - Closing:</span></dt>
+                    <dd>
+                        <span>{{ partnersloc.closeTime | date:'shortTime' }}</span>
+                    </dd>
+                    <dt><span>Name of Contact Person:</span></dt>
+                    <dd>
+                        <span>{{ partnersloc.pocName }}</span>
+                    </dd>
+                    <dt><span>Contact Person Phone No.:</span></dt>
+                    <dd>
+                        <span>{{ partnersloc.pocNo }}</span>
+                    </dd>
+                    <dt><span>Contact Person Email:</span></dt>
+                    <dd>
+                        <span>{{ partnersloc.pocEmail }}</span>
+                    </dd>                    
+                </dl>
 
-            <dl class="row-md jh-entity-details">
-                <dt><span>Region</span></dt>
-                <dd>                    
-                    <span *ngIf= "partnersloc.region==='C'">Central</span>
-                    <span *ngIf= "partnersloc.region==='E'">East</span>
-                    <span *ngIf= "partnersloc.region==='N'">North</span>
-                    <span *ngIf= "partnersloc.region==='NE'">North East</span>
-                    <span *ngIf= "partnersloc.region==='W'">West</span>
-                </dd>
-                <dt><span>Address</span></dt>
-                <dd>
-                    <span>{{ partnersloc.address }}</span>
-                </dd>
-                <dt><span>Postal Code</span></dt>
-                <dd>
-                    <span>{{ partnersloc.postalCode }}</span>
-                </dd>
-                <dt><span>Open Time</span></dt>
-                <dd>
-                    <span>{{ partnersloc.openTime | date:'shortTime' }}</span>
-                </dd>
-                <dt><span>Close Time</span></dt>
-                <dd>
-                    <span>{{ partnersloc.closeTime | date:'shortTime' }}</span>
-                </dd>
-                <dt><span>Poc Name</span></dt>
-                <dd>
-                    <span>{{ partnersloc.pocName }}</span>
-                </dd>
-                <dt><span>Poc No</span></dt>
-                <dd>
-                    <span>{{ partnersloc.pocNo }}</span>
-                </dd>
-                <dt><span>Poc Email</span></dt>
-                <dd>
-                    <span>{{ partnersloc.pocEmail }}</span>
-                </dd>
-                <dt><span>Partners</span></dt>
-                <dd>
-                    <div *ngIf="partnersloc.partnersId">
-                        <a [routerLink]="['/partners', partnersloc.partnersId, 'view']">{{ partnersloc.partnersCompanyName }}</a>
-                    </div>
-                </dd>
-            </dl>
+                <button type="submit"
+                        (click)="previousState()"
+                        class="btn btn-info">
+                    <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+                </button>
 
-            <button type="submit"
-                    (click)="previousState()"
-                    class="btn btn-info">
-                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
-            </button>
-
-            <button type="button"
-                    [routerLink]="['/partnersloc', partnersloc.id, 'edit']"
-                    class="btn btn-primary">
-                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
-            </button>
+                <button type="button"
+                        [routerLink]="['/partnersloc', partnersloc.id, 'edit']"
+                        class="btn btn-primary">
+                    <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+                </button>
+            </div>
+        </div>
+        <div class="col-md">
+            <div *ngIf="partnersloc"> 
+                <dl class="row-md jh-entity-details">                    
+                    <dt><span>How to Get There:</span></dt>
+                    <br>
+                    <dd>
+                        <img class="images" style="border:black; border-width:5px; border-style:solid;" src="../../../../content/images/locationmap.jpg"/>
+                    </dd>
+                </dl>
+            </div>
         </div>
     </div>
 </div>

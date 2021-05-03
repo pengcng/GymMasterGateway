@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Router, Params } from '@angular/router';
 import { Observable } from 'rxjs';
-import { Subscription, combineLatest } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
@@ -22,10 +22,16 @@ import { Account } from 'app/core/user/account.model';
 })
 export class PaymentUpdateComponent implements OnInit {
   isSaving = false;
+  href: any = '';
+  splitted: any[] = [];
+  bookingId: any = '';
+  catPrice: any = '';
+  catPriceInput: any = '';
   bookings: IBooking[] = [];
   account: Account | null = null;
   eventSubscriber?: Subscription;
   authSubscription?: Subscription;
+  username: any = '';
 
   editForm = this.fb.group({
     id: [],
@@ -35,14 +41,8 @@ export class PaymentUpdateComponent implements OnInit {
     receiptNo: [],
     point: [],
     bookingId: [],
+    catPrice: [],
   });
-
-  messageid: any = '';
-  messageTitle: any = '';
-  messageDesc: any = '';
-  messageDesc1: any = '';
-  messageDesc2: any = '';
-  messageDesc4: any = '';
 
   constructor(
     private accountService: AccountService,
@@ -53,15 +53,28 @@ export class PaymentUpdateComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    //    this.activatedRoute.params.subscribe((params: Params) => {
-    //      this.messageid = params['catalogueId'];
-    //      this.messageTitle = params['customerId'];
-    //      this.messageDesc = params['customerId'];
-    //      this.messageDesc1 = params['bookingDt'];
-    //      this.messageDesc2 = params['userName'];
-    //      this.messageDesc4 = params['price'];
-    //   });
+    this.activatedRoute.params.subscribe((params: Params) => {
+      this.catPrice = params['catPrice'];
+      console.warn('catPrice = ' + this.catPrice);
+      this.catPriceInput = this.catPrice;
+      this.bookingId = params['bookingId'];
+      console.warn('bookingId = ' + this.bookingId);
+    });
+
     this.authSubscription = this.accountService.getAuthenticationState().subscribe(account => (this.account = account));
+    console.warn('account = ' + this.account?.login);
+    if (this.account?.login) {
+      this.username = 'bbb';
+    }
+
+    //get total number of points from db
+    this.paymentService.findPoints(this.username).subscribe(
+      res => {
+        const totalPoints = res.body?.point;
+        console.warn('findPoints: ' + totalPoints);
+      },
+      () => {}
+    );
 
     this.activatedRoute.data.subscribe(({ payment }) => {
       if (!payment.id) {
@@ -104,6 +117,7 @@ export class PaymentUpdateComponent implements OnInit {
       receiptNo: payment.receiptNo,
       point: payment.point,
       bookingId: payment.bookingId,
+      catPrice: payment.catPrice,
     });
   }
 
@@ -131,6 +145,7 @@ export class PaymentUpdateComponent implements OnInit {
       receiptNo: this.editForm.get(['receiptNo'])!.value,
       point: this.editForm.get(['point'])!.value,
       bookingId: this.editForm.get(['bookingId'])!.value,
+      catPrice: this.editForm.get(['catPrice'])!.value,
     };
   }
 
@@ -152,5 +167,9 @@ export class PaymentUpdateComponent implements OnInit {
 
   trackById(index: number, item: IBooking): any {
     return item.id;
+  }
+
+  redeemOnly(): void {
+    this.isSaving = false;
   }
 }

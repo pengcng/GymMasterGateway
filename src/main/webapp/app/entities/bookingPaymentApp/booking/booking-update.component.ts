@@ -10,6 +10,9 @@ import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { IBooking, Booking } from 'app/shared/model/bookingPaymentApp/booking.model';
 import { BookingService } from './booking.service';
 import { ICatalogue } from 'app/shared/model/gymMasterCatalogue/catalogue.model';
+import { AccountService } from 'app/core/auth/account.service';
+import { Account } from 'app/core/user/account.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'jhi-booking-update',
@@ -25,6 +28,9 @@ export class BookingUpdateComponent implements OnInit {
   booking: IBooking | null = null;
   catalogue: ICatalogue | null = null;
   url: any;
+  createdBookingId?: number;
+  account: Account | null = null;
+  authSubscription?: Subscription;
 
   editForm = this.fb.group({
     id: [],
@@ -38,6 +44,7 @@ export class BookingUpdateComponent implements OnInit {
   constructor(
     protected bookingService: BookingService,
     protected activatedRoute: ActivatedRoute,
+    protected accountService: AccountService,
     private fb: FormBuilder,
     private router: Router
   ) {}
@@ -61,6 +68,8 @@ export class BookingUpdateComponent implements OnInit {
 
       this.updateForm(booking);
     });
+
+    this.authSubscription = this.accountService.getAuthenticationState().subscribe(account => (this.account = account));
   }
 
   updateForm(booking: IBooking): void {
@@ -84,7 +93,7 @@ export class BookingUpdateComponent implements OnInit {
     if (booking.id !== undefined) {
       this.subscribeToSaveResponse(this.bookingService.update(booking));
     } else {
-      this.subscribeToSaveResponseToPayment(this.bookingService.create(booking));
+      this.subscribeToSaveResponse(this.bookingService.create(booking));
     }
   }
 
@@ -102,32 +111,27 @@ export class BookingUpdateComponent implements OnInit {
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IBooking>>): void {
     result.subscribe(
-      () => this.onSaveSuccessPayment(),
+      () => this.onSaveSuccess(),
       () => this.onSaveError()
     );
   }
 
-  protected subscribeToSaveResponseToPayment(result: Observable<HttpResponse<IBooking>>): void {
-    result.subscribe(
-      res => {
-        console.warn('bookingid:' + res.body);
-      },
-      err => {
-        () => this.onSaveError();
-      }
-    );
-  }
-
+  //  this is to get the booking id out first
   protected onSaveSuccess(): void {
-    this.isSaving = false;
-    console.warn('navigate to booking page now');
-    this.router.navigate(['/booking']);
-  }
+    this.bookingService.findLatestId().subscribe(
+      res => {
+        this.createdBookingId = res.body?.id;
+        console.warn('createdBookingId: ' + this.createdBookingId);
+      },
+      () => {}
+    );
 
-  protected onSaveSuccessPayment(): void {
     this.isSaving = false;
-    console.warn('navigate to payment page now');
-    this.router.navigate(['/payment/new', this.editForm.get(['id'])!.value, this.catPri / booking - update.component.tsce]);
+    this.createdBookingId = 111;
+
+    this.url = 'http://' + window.location.hostname + ':5000/payment/new/' + this.createdBookingId + '/' + this.catPrice;
+    console.warn('to payment page now:url= ' + this.url);
+    window.open(this.url, '_self');
   }
 
   protected onSaveError(): void {
@@ -136,5 +140,13 @@ export class BookingUpdateComponent implements OnInit {
 
   toPaymentUrl(): void {
     this.save();
+  }
+
+  protected wait(ms: number): void {
+    const start = new Date().getTime();
+    let end = new Date().getTime();
+    while (end < start + ms) {
+      end = new Date().getTime();
+    }
   }
 }

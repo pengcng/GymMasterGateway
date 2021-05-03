@@ -687,7 +687,7 @@
                         <changeLogFile>${project.basedir}/src/main/resources/config/liquibase/master.xml</changeLogFile>
                         <diffChangeLogFile>${project.basedir}/src/main/resources/config/liquibase/changelog/${maven.build.timestamp}_changelog.xml</diffChangeLogFile>
                         <driver>oracle.jdbc.OracleDriver</driver>
-                        <url>jdbc:oracle:thin:@localhost:1521:orcl1</url>
+                        <url>jdbc:oracle:thin:@localhost:1521:orcl</url>
                         <defaultSchemaName>gymgateway</defaultSchemaName>
                         <username>gymgateway</username>
                         <password>password123</password>

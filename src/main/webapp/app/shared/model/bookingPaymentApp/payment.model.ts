@@ -10,6 +10,7 @@ export interface IPayment {
   receiptNo?: string;
   point?: number;
   bookingId?: number;
+  catPrice?: string;
 }
 
 export class Payment implements IPayment {
@@ -20,6 +21,7 @@ export class Payment implements IPayment {
     public tranStatus?: TranStatus,
     public receiptNo?: string,
     public point?: number,
-    public bookingId?: number
+    public bookingId?: number,
+    public catPrice?: string
   ) {}
 }

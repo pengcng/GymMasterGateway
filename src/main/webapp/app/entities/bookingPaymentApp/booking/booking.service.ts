@@ -38,6 +38,10 @@ export class BookingService {
       .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
 
+  findLatestId(): Observable<EntityResponseType> {
+    return this.http.get<any>(`${this.resourceUrl}/latestId`, { observe: 'response' });
+  }
+
   query(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
     return this.http

@@ -58,7 +58,7 @@ export const paymentRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
-    path: 'new',
+    path: 'new/:bookingId/:catPrice',
     component: PaymentUpdateComponent,
     resolve: {
       payment: PaymentResolve,

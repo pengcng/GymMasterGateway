@@ -50,9 +50,7 @@ export class PaymentService {
   }
 
   findPoints(userName: String): Observable<EntityResponseType> {
-    return this.http
-      .get<IPayment>(`${this.resourceUrl}/${userName}`, { observe: 'response' })
-      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    return this.http.get<any>(`${this.resourceUrl}/findPoints/${userName}`, { observe: 'response' });
   }
 
   search(req: SearchWithPagination): Observable<EntityArrayResponseType> {

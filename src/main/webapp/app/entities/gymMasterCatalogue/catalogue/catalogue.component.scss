@@ -9,6 +9,11 @@
   list-style-type: none;
   -webkit-margin-before: 0;
   -webkit-margin-after: 0;
+  column-fill: balance;
+}
+
+.arrangeInColumns li {
+  break-inside: avoid-column;
 }
 
 .catElement {
@@ -16,6 +21,7 @@
   text-align: center;
   margin: 0 auto;
   color: #000000;
+  border: 1px solid white;
 }
 
 .catElement:hover {

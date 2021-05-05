@@ -32,6 +32,8 @@ export class PaymentUpdateComponent implements OnInit {
   eventSubscriber?: Subscription;
   authSubscription?: Subscription;
   username: any = '';
+  totalPoints: any;
+  priceToPay: any;
 
   editForm = this.fb.group({
     id: [],
@@ -41,6 +43,7 @@ export class PaymentUpdateComponent implements OnInit {
     receiptNo: [],
     point: [],
     bookingId: [],
+    priceToPay: [],
     catPrice: [],
   });
 
@@ -70,19 +73,20 @@ export class PaymentUpdateComponent implements OnInit {
     //get total number of points from db
     this.paymentService.findPoints(this.username).subscribe(
       res => {
-        const totalPoints = res.body?.point;
-        console.warn('findPoints: ' + totalPoints);
+        this.totalPoints = res.body;
+        console.warn('findPoints: ' + this.totalPoints);
+        console.warn('findPoints1: ' + res.headers);
       },
       () => {}
     );
 
-    this.activatedRoute.data.subscribe(({ payment }) => {
+    this.activatedRoute.data.subscribe(({ payment, priceToPay }) => {
       if (!payment.id) {
         const today = moment().startOf('day');
         payment.tranDt = today;
       }
 
-      this.updateForm(payment);
+      this.updateForm(payment, this.priceToPay);
 
       this.bookingService
         .query({ filter: 'payment-is-null' })
@@ -108,7 +112,7 @@ export class PaymentUpdateComponent implements OnInit {
     });
   }
 
-  updateForm(payment: IPayment): void {
+  updateForm(payment: IPayment, priceToPay: number): void {
     this.editForm.patchValue({
       id: payment.id,
       paymentMode: payment.paymentMode,
@@ -117,7 +121,7 @@ export class PaymentUpdateComponent implements OnInit {
       receiptNo: payment.receiptNo,
       point: payment.point,
       bookingId: payment.bookingId,
-      catPrice: payment.catPrice,
+      catPrice: priceToPay,
     });
   }
 
@@ -145,7 +149,7 @@ export class PaymentUpdateComponent implements OnInit {
       receiptNo: this.editForm.get(['receiptNo'])!.value,
       point: this.editForm.get(['point'])!.value,
       bookingId: this.editForm.get(['bookingId'])!.value,
-      catPrice: this.editForm.get(['catPrice'])!.value,
+      catPrice: this.editForm.get(['priceToPay'])!.value,
     };
   }
 
@@ -169,7 +173,8 @@ export class PaymentUpdateComponent implements OnInit {
     return item.id;
   }
 
-  redeemOnly(): void {
-    this.isSaving = false;
+  redeem(catPrice: number, totalPoints: number): void {
+    this.priceToPay = catPrice - totalPoints;
+    console.warn('PriceToPay' + this.priceToPay);
   }
 }

@@ -111,20 +111,33 @@
                     <tr *ngFor="let partnersloc of partnerslocs ;trackBy: trackId">
                         <ng-container *ngIf="account">
                             <ng-container *ngIf="partnersloc.partnersUserName === account.login">
-                                <td><a [routerLink]="['/partnersloc', partnersloc.id, 'view']">{{ partnersloc.id }}</a></td>
-                                <td>{{ partnersloc.region }}</td>
-                                <td>{{ partnersloc.address }}</td>
-                                <td>{{ partnersloc.postalCode }}</td>
-                                <td>{{ partnersloc.openTime | date:'shortTime' }}</td>
-                                <td>{{ partnersloc.closeTime | date:'shortTime' }}</td>
-                                <td>{{ partnersloc.pocName }}</td>
-                                <td>{{ partnersloc.pocNo }}</td>
-                                <td>{{ partnersloc.pocEmail }}</td>
                                 <td>
-                                    <div *ngIf="partnersloc.partnersId">
-                                        <a [routerLink]="['/partners', partnersloc.partnersId , 'view']" >{{ partnersloc.partnersCompanyName }}</a>
-                                    </div>
-                                </td>
+                            <div *ngIf="partnersloc.partnersId">
+                                <a [routerLink]="['/partners', partnersloc.partnersId , 'view']" >{{ partnersloc.partnersCompanyName }}</a>
+                            </div>
+                        </td>
+                        <ng-container *ngIf= "partnersloc.region==='C'">
+                            <td>Central</td>
+                        </ng-container>
+                        <ng-container *ngIf= "partnersloc.region==='E'">
+                            <td>East</td>
+                        </ng-container>
+                        <ng-container *ngIf= "partnersloc.region==='N'">
+                            <td>North</td>
+                        </ng-container>
+                        <ng-container *ngIf= "partnersloc.region==='NE'">
+                            <td>North East</td>
+                        </ng-container>
+                        <ng-container *ngIf= "partnersloc.region==='W'">
+                            <td>West</td>
+                        </ng-container>                        
+                        <td>{{ partnersloc.address }}</td>
+                        <!--<td>{{ partnersloc.postalCode }}</td>-->
+                        <td>{{ partnersloc.openTime | date:'shortTime' }}</td>
+                        <td>{{ partnersloc.closeTime | date:'shortTime' }}</td>
+                        <!--<td>{{ partnersloc.pocName }}</td>
+                        <td>{{ partnersloc.pocNo }}</td>
+                        <td>{{ partnersloc.pocEmail }}</td>-->
                                 <td class="text-right">
                                     <div class="btn-group">
                                         <button type="submit"

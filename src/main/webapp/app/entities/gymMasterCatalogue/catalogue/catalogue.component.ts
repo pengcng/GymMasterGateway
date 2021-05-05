@@ -42,7 +42,7 @@ export class CatalogueComponent implements OnInit, OnDestroy {
   partnerIdValue: any = '';
   companyCategoryList: any[] = ['Show All', 'Dance', 'HIIT', 'Pilates', 'Spin', 'Swimming', 'Yoga'];
   i: any;
-  childElements: any;
+  currentDt: any = '';
 
   constructor(
     protected catalogueService: CatalogueService,
@@ -119,6 +119,8 @@ export class CatalogueComponent implements OnInit, OnDestroy {
     this.authSubscription = this.accountService.getAuthenticationState().subscribe(account => (this.account = account));
     this.activatedRoute.data.subscribe(({ partners }) => (this.partners = partners));
     this.partnersService.query().subscribe((res: HttpResponse<IPartners[]>) => (this.partners = res.body || []));
+    this.currentDt = new Date();
+    console.warn(this.currentDt);
   }
 
   protected handleNavigation(): void {
@@ -219,6 +221,7 @@ export class CatalogueComponent implements OnInit, OnDestroy {
   companySelection(): void {
     console.warn('id: ' + this.partnerIdValue);
     console.warn(this.catalogues);
+    this.categorySearch = '';
     this.companyCategoryList = ['Show All'];
 
     for (this.i = 0; this.i < this.catalogues!.length; this.i++) {

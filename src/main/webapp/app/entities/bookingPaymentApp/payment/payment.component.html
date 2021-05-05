@@ -44,7 +44,8 @@
                     <th scope="col"  jhiSortBy="paymentMode"><span>Payment Mode</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="tranDt"><span>Tran Dt</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="tranStatus"><span>Tran Status</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="receiptNo"><span>Receipt No</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="price"><span>Price</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="point"><span>Point</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="bookingId"><span>Booking</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
@@ -55,7 +56,8 @@
                     <td>{{ payment.paymentMode }}</td>
                     <td>{{ payment.tranDt | date:'medium' }}</td>
                     <td>{{ payment.tranStatus }}</td>
-                    <td>{{ payment.receiptNo }}</td>
+                    <td>{{ payment.price }}</td>
+                    <td>{{ payment.point }}</td>
                     <td>
                         <div *ngIf="payment.bookingId">
                             <a [routerLink]="['/booking', payment.bookingId , 'view']" >{{ payment.bookingId }}</a>

@@ -75,7 +75,7 @@ export class CatalogueComponent implements OnInit, OnDestroy {
           (res: HttpResponse<ICatalogue[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
           () => this.onError()
         );
-        console.warn('test test test step 1');
+      console.warn('test test test step 1');
       return;
     } else if (this.currentSearch) {
       console.warn('entered normal search with query ' + this.currentSearch);
@@ -171,8 +171,7 @@ export class CatalogueComponent implements OnInit, OnDestroy {
     this.page = page;
     this.ngbPaginationPage = this.page;
     if (navigate) {
-      if(this.currentSearch)
-      {
+      if (this.currentSearch) {
         this.router.navigate(['/catalogue'], {
           queryParams: {
             page: this.page,
@@ -181,11 +180,9 @@ export class CatalogueComponent implements OnInit, OnDestroy {
             sort: this.predicate + ',' + (this.ascending ? 'asc' : 'desc'),
           },
         });
-      }
-      else if(this.categorySearch)
-      {
+      } else if (this.categorySearch) {
         console.warn('test test test step 2');
-         this.router.navigate(['/catalogue'], {
+        this.router.navigate(['/catalogue'], {
           queryParams: {
             page: this.page,
             size: this.itemsPerPage,
@@ -193,7 +190,7 @@ export class CatalogueComponent implements OnInit, OnDestroy {
             sort: this.predicate + ',' + (this.ascending ? 'asc' : 'desc'),
           },
         });
-      }      
+      }
     }
     this.catalogues = data || [];
     this.ngbPaginationPage = this.page;

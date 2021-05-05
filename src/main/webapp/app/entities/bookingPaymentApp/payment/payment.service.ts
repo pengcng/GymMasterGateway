@@ -49,6 +49,10 @@ export class PaymentService {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
+  findPoints(userName: String): Observable<EntityResponseType> {
+    return this.http.get<any>(`${this.resourceUrl}/findPoints/${userName}`, { observe: 'response' });
+  }
+
   search(req: SearchWithPagination): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
     return this.http

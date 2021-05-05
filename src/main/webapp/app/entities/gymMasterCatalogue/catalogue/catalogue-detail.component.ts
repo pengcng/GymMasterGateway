@@ -22,7 +22,7 @@ export class CatalogueDetailComponent implements OnInit {
   }
 
   toBookingUrl(): void {
-    this.url = 'http://' + window.location.hostname + ':5000/booking/new#' + this.catalogue!.id;
+    this.url = 'http://' + window.location.hostname + ':5000/booking/new#' + this.catalogue!.id + '#' + this.catalogue!.price;
     console.warn('url= ' + this.url);
     window.open(this.url);
   }

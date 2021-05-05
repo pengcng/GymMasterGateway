@@ -7,8 +7,10 @@ export interface IPayment {
   paymentMode?: PaymentMode;
   tranDt?: Moment;
   tranStatus?: TranStatus;
-  receiptNo?: string;
+  price?: string;
+  point?: number;
   bookingId?: number;
+  catPrice?: string;
 }
 
 export class Payment implements IPayment {
@@ -17,7 +19,9 @@ export class Payment implements IPayment {
     public paymentMode?: PaymentMode,
     public tranDt?: Moment,
     public tranStatus?: TranStatus,
-    public receiptNo?: string,
-    public bookingId?: number
+    public price?: string,
+    public point?: number,
+    public bookingId?: number,
+    public catPrice?: string
   ) {}
 }

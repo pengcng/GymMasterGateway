@@ -26,7 +26,7 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new Payment(0, PaymentMode.CREDIT, currentDate, TranStatus.CANCELLED, 'AAAAAAA');
+      elemDefault = new Payment(0, PaymentMode.CREDIT, currentDate, TranStatus.CANCELLED, 'AAAAAAA', 0);
     });
 
     describe('Service methods', () => {
@@ -75,6 +75,7 @@ describe('Service Tests', () => {
             tranDt: currentDate.format(DATE_TIME_FORMAT),
             tranStatus: 'BBBBBB',
             receiptNo: 'BBBBBB',
+            point: 1,
           },
           elemDefault
         );
@@ -100,6 +101,7 @@ describe('Service Tests', () => {
             tranDt: currentDate.format(DATE_TIME_FORMAT),
             tranStatus: 'BBBBBB',
             receiptNo: 'BBBBBB',
+            point: 1,
           },
           elemDefault
         );

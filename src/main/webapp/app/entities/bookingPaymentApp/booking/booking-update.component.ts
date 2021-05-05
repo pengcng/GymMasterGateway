@@ -9,6 +9,10 @@ import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 
 import { IBooking, Booking } from 'app/shared/model/bookingPaymentApp/booking.model';
 import { BookingService } from './booking.service';
+import { ICatalogue } from 'app/shared/model/gymMasterCatalogue/catalogue.model';
+import { AccountService } from 'app/core/auth/account.service';
+import { Account } from 'app/core/user/account.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'jhi-booking-update',
@@ -21,6 +25,12 @@ export class BookingUpdateComponent implements OnInit {
   catId: any = '';
   catPrice: any = '';
   catIdInput: any = '';
+  booking: IBooking | null = null;
+  catalogue: ICatalogue | null = null;
+  url: any;
+  createdBookingId?: number;
+  account: Account | null = null;
+  authSubscription?: Subscription;
 
   editForm = this.fb.group({
     id: [],
@@ -28,11 +38,13 @@ export class BookingUpdateComponent implements OnInit {
     customerId: [null, [Validators.maxLength(30)]],
     cancelInd: [],
     bookingDt: [],
+    userName: [],
   });
 
   constructor(
     protected bookingService: BookingService,
     protected activatedRoute: ActivatedRoute,
+    protected accountService: AccountService,
     private fb: FormBuilder,
     private router: Router
   ) {}
@@ -56,6 +68,8 @@ export class BookingUpdateComponent implements OnInit {
 
       this.updateForm(booking);
     });
+
+    this.authSubscription = this.accountService.getAuthenticationState().subscribe(account => (this.account = account));
   }
 
   updateForm(booking: IBooking): void {
@@ -65,6 +79,7 @@ export class BookingUpdateComponent implements OnInit {
       customerId: booking.customerId,
       cancelInd: booking.cancelInd,
       bookingDt: booking.bookingDt ? booking.bookingDt.format(DATE_TIME_FORMAT) : null,
+      userName: booking.userName,
     });
   }
 
@@ -90,6 +105,7 @@ export class BookingUpdateComponent implements OnInit {
       customerId: this.editForm.get(['customerId'])!.value,
       cancelInd: this.editForm.get(['cancelInd'])!.value,
       bookingDt: this.editForm.get(['bookingDt'])!.value ? moment(this.editForm.get(['bookingDt'])!.value, DATE_TIME_FORMAT) : undefined,
+      userName: this.editForm.get(['userName'])!.value,
     };
   }
 
@@ -100,13 +116,37 @@ export class BookingUpdateComponent implements OnInit {
     );
   }
 
+  //  this is to get the booking id out first
   protected onSaveSuccess(): void {
+    this.bookingService.findLatestId().subscribe(
+      res => {
+        this.createdBookingId = res.body?.id;
+        console.warn('createdBookingId: ' + this.createdBookingId);
+      },
+      () => {}
+    );
+
     this.isSaving = false;
-    console.warn('navigate to booking page now');
-    this.router.navigate(['/booking']);
+    this.createdBookingId = 111;
+
+    this.url = 'http://' + window.location.hostname + ':5000/payment/new/' + this.createdBookingId + '/' + this.catPrice;
+    console.warn('to payment page now:url= ' + this.url);
+    window.open(this.url, '_self');
   }
 
   protected onSaveError(): void {
     this.isSaving = false;
+  }
+
+  toPaymentUrl(): void {
+    this.save();
+  }
+
+  protected wait(ms: number): void {
+    const start = new Date().getTime();
+    let end = new Date().getTime();
+    while (end < start + ms) {
+      end = new Date().getTime();
+    }
   }
 }

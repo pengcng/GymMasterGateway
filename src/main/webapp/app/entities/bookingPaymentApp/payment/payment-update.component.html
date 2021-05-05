@@ -36,10 +36,33 @@
                     </select>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" for="field_receiptNo">Receipt No</label>
+                <!-- <div class="form-group">
+                    <label class="form-control-label">Receipt No</label>
                     <input type="text" class="form-control" name="receiptNo" id="field_receiptNo"
                            formControlName="receiptNo"/>
+                </div> -->
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_catPrice">catPrice</label>
+                    <input type="text" class="form-control" name="catPrice" id="catPrice"
+                           formControlName="catPrice" [(ngModel)]="catPriceInput" readonly/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_point">Point</label>
+                    <input type="number" class="form-control" name="point" id="field_point"
+                           formControlName="point" [(ngModel)]="totalPoints" readonly/>
+                    <ng-container *ngIf = "totalPoints > 0">
+                    <button type="button" id="save" class="btn btn-secondary" (click)="redeem(catPriceInput,totalPoints)">
+                        <fa-icon icon="ban"></fa-icon>&nbsp;<span>Redeem</span>
+                    </button>
+                    </ng-container>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_price">Price to pay</label>
+                    <input type="text" class="form-control" name="price" id="field_price"
+                           formControlName="price" [(ngModel)]="priceToPay" readonly/>
                 </div>
 
                 <div class="form-group">
@@ -58,6 +81,16 @@
 
                 <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
                     <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+
+            <div>
+                <button type="button" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel Payment</span>
+                </button>
+
+                <button type="submit" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span>Confirm Payment</span>
                 </button>
             </div>
         </form>

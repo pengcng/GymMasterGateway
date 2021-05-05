@@ -49,6 +49,12 @@
                         <input id="field_bookingDt" type="datetime-local" class="form-control" name="bookingDt" formControlName="bookingDt" placeholder="YYYY-MM-DD HH:mm"/>
                     </div>
                 </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_userName">User Name</label>
+                    <input type="text" class="form-control" name="userName" id="field_userName"
+                           formControlName="userName"/>
+                </div>
             </div>
 
             <div>
@@ -58,6 +64,12 @@
 
                 <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
                     <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+
+                <button type="button"
+                        (click)="toPaymentUrl()"
+                        class="btn btn-primary">
+                    <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Proceed to Payment</span>
                 </button>
             </div>
         </form>

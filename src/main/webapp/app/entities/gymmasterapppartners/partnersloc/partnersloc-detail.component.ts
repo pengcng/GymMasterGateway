@@ -10,13 +10,12 @@ import { IPartnersloc } from 'app/shared/model/gymmasterapppartners/partnersloc.
 export class PartnerslocDetailComponent implements OnInit {
   partnersloc: IPartnersloc | null = null;
   name = 'Angular 5';
-  lat:any;
-  lng:any;
+  lat: any;
+  lng: any;
 
   constructor(protected activatedRoute: ActivatedRoute) {
-    if (navigator)
-    {
-    navigator.geolocation.getCurrentPosition( pos => {
+    if (navigator) {
+      navigator.geolocation.getCurrentPosition(pos => {
         this.lng = +pos.coords.longitude;
         this.lat = +pos.coords.latitude;
       });

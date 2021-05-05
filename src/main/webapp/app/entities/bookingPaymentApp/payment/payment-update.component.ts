@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, Params } from '@angular/router';
 import { Observable } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
@@ -12,6 +13,8 @@ import { IPayment, Payment } from 'app/shared/model/bookingPaymentApp/payment.mo
 import { PaymentService } from './payment.service';
 import { IBooking } from 'app/shared/model/bookingPaymentApp/booking.model';
 import { BookingService } from 'app/entities/bookingPaymentApp/booking/booking.service';
+import { AccountService } from 'app/core/auth/account.service';
+import { Account } from 'app/core/user/account.model';
 
 @Component({
   selector: 'jhi-payment-update',
@@ -19,7 +22,18 @@ import { BookingService } from 'app/entities/bookingPaymentApp/booking/booking.s
 })
 export class PaymentUpdateComponent implements OnInit {
   isSaving = false;
+  href: any = '';
+  splitted: any[] = [];
+  bookingId: any = '';
+  catPrice: any = '';
+  catPriceInput: any = '';
   bookings: IBooking[] = [];
+  account: Account | null = null;
+  eventSubscriber?: Subscription;
+  authSubscription?: Subscription;
+  username: any = '';
+  totalPoints: any;
+  priceToPay: any;
 
   editForm = this.fb.group({
     id: [],
@@ -27,17 +41,47 @@ export class PaymentUpdateComponent implements OnInit {
     tranDt: [],
     tranStatus: [],
     receiptNo: [],
+    point: [],
     bookingId: [],
+    priceToPay: [],
+    catPrice: [],
+    price: [],
   });
 
   constructor(
+    private accountService: AccountService,
     protected paymentService: PaymentService,
     protected bookingService: BookingService,
     protected activatedRoute: ActivatedRoute,
+    protected router: Router,
     private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
+    this.activatedRoute.params.subscribe((params: Params) => {
+      this.catPrice = params['catPrice'];
+      console.warn('catPrice = ' + this.catPrice);
+      this.catPriceInput = this.catPrice;
+      this.bookingId = params['bookingId'];
+      console.warn('bookingId = ' + this.bookingId);
+    });
+
+    this.authSubscription = this.accountService.getAuthenticationState().subscribe(account => (this.account = account));
+    console.warn('account = ' + this.account?.login);
+    if (this.account?.login) {
+      this.username = 'bbb';
+    }
+
+    //get total number of points from db
+    this.paymentService.findPoints(this.username).subscribe(
+      res => {
+        this.totalPoints = res.body;
+        console.warn('findPoints: ' + this.totalPoints);
+        console.warn('findPoints1: ' + res.headers);
+      },
+      () => {}
+    );
+
     this.activatedRoute.data.subscribe(({ payment }) => {
       if (!payment.id) {
         const today = moment().startOf('day');
@@ -76,8 +120,10 @@ export class PaymentUpdateComponent implements OnInit {
       paymentMode: payment.paymentMode,
       tranDt: payment.tranDt ? payment.tranDt.format(DATE_TIME_FORMAT) : null,
       tranStatus: payment.tranStatus,
-      receiptNo: payment.receiptNo,
+      price: payment.price,
+      point: payment.point,
       bookingId: payment.bookingId,
+      catPrice: payment.catPrice,
     });
   }
 
@@ -88,6 +134,9 @@ export class PaymentUpdateComponent implements OnInit {
   save(): void {
     this.isSaving = true;
     const payment = this.createFromForm();
+    console.warn('payment.price: ' + payment.price);
+    console.warn('payment.point: ' + payment.point);
+    console.warn('payment.catPrice: ' + payment.catPrice);
     if (payment.id !== undefined) {
       this.subscribeToSaveResponse(this.paymentService.update(payment));
     } else {
@@ -102,8 +151,10 @@ export class PaymentUpdateComponent implements OnInit {
       paymentMode: this.editForm.get(['paymentMode'])!.value,
       tranDt: this.editForm.get(['tranDt'])!.value ? moment(this.editForm.get(['tranDt'])!.value, DATE_TIME_FORMAT) : undefined,
       tranStatus: this.editForm.get(['tranStatus'])!.value,
-      receiptNo: this.editForm.get(['receiptNo'])!.value,
+      price: this.editForm.get(['price'])!.value,
+      point: this.editForm.get(['point'])!.value,
       bookingId: this.editForm.get(['bookingId'])!.value,
+      catPrice: this.editForm.get(['priceToPay'])!.value,
     };
   }
 
@@ -116,7 +167,7 @@ export class PaymentUpdateComponent implements OnInit {
 
   protected onSaveSuccess(): void {
     this.isSaving = false;
-    this.previousState();
+    this.router.navigate(['/payment']);
   }
 
   protected onSaveError(): void {
@@ -125,5 +176,10 @@ export class PaymentUpdateComponent implements OnInit {
 
   trackById(index: number, item: IBooking): any {
     return item.id;
+  }
+
+  redeem(catPrice: number, totalPoints: number): void {
+    this.priceToPay = catPrice - totalPoints;
+    console.warn('PriceToPay' + this.priceToPay);
   }
 }

@@ -45,6 +45,7 @@ export class PaymentUpdateComponent implements OnInit {
     bookingId: [],
     priceToPay: [],
     catPrice: [],
+    price: [],
   });
 
   constructor(
@@ -52,6 +53,7 @@ export class PaymentUpdateComponent implements OnInit {
     protected paymentService: PaymentService,
     protected bookingService: BookingService,
     protected activatedRoute: ActivatedRoute,
+    protected router: Router,
     private fb: FormBuilder
   ) {}
 
@@ -80,13 +82,13 @@ export class PaymentUpdateComponent implements OnInit {
       () => {}
     );
 
-    this.activatedRoute.data.subscribe(({ payment, priceToPay }) => {
+    this.activatedRoute.data.subscribe(({ payment }) => {
       if (!payment.id) {
         const today = moment().startOf('day');
         payment.tranDt = today;
       }
 
-      this.updateForm(payment, this.priceToPay);
+      this.updateForm(payment);
 
       this.bookingService
         .query({ filter: 'payment-is-null' })
@@ -112,16 +114,16 @@ export class PaymentUpdateComponent implements OnInit {
     });
   }
 
-  updateForm(payment: IPayment, priceToPay: number): void {
+  updateForm(payment: IPayment): void {
     this.editForm.patchValue({
       id: payment.id,
       paymentMode: payment.paymentMode,
       tranDt: payment.tranDt ? payment.tranDt.format(DATE_TIME_FORMAT) : null,
       tranStatus: payment.tranStatus,
-      receiptNo: payment.receiptNo,
+      price: payment.price,
       point: payment.point,
       bookingId: payment.bookingId,
-      catPrice: priceToPay,
+      catPrice: payment.catPrice,
     });
   }
 
@@ -132,6 +134,9 @@ export class PaymentUpdateComponent implements OnInit {
   save(): void {
     this.isSaving = true;
     const payment = this.createFromForm();
+    console.warn('payment.price: ' + payment.price);
+    console.warn('payment.point: ' + payment.point);
+    console.warn('payment.catPrice: ' + payment.catPrice);
     if (payment.id !== undefined) {
       this.subscribeToSaveResponse(this.paymentService.update(payment));
     } else {
@@ -146,7 +151,7 @@ export class PaymentUpdateComponent implements OnInit {
       paymentMode: this.editForm.get(['paymentMode'])!.value,
       tranDt: this.editForm.get(['tranDt'])!.value ? moment(this.editForm.get(['tranDt'])!.value, DATE_TIME_FORMAT) : undefined,
       tranStatus: this.editForm.get(['tranStatus'])!.value,
-      receiptNo: this.editForm.get(['receiptNo'])!.value,
+      price: this.editForm.get(['price'])!.value,
       point: this.editForm.get(['point'])!.value,
       bookingId: this.editForm.get(['bookingId'])!.value,
       catPrice: this.editForm.get(['priceToPay'])!.value,
@@ -162,7 +167,7 @@ export class PaymentUpdateComponent implements OnInit {
 
   protected onSaveSuccess(): void {
     this.isSaving = false;
-    this.previousState();
+    this.router.navigate(['/payment']);
   }
 
   protected onSaveError(): void {

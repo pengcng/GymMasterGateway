@@ -31,6 +31,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngbPaginationPage = 1;
   personalisedCat: any[] = [];
   i: any;
+  reloadCount: any;
+  url: any;
 
   constructor(
     private accountService: AccountService,
@@ -48,14 +50,27 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    console.warn('ngOnInit');
     this.authSubscription = this.accountService.getAuthenticationState().subscribe(account => (this.account = account));
     this.activatedRoute.data.subscribe(({ catalogues }) => (this.catalogues = catalogues));
     this.catalogueService.query().subscribe((res: HttpResponse<ICatalogue[]>) => (this.catalogues = res.body || []));
-
+    this.reloadCount = 0;
     //	this.personalise();
   }
 
   isAuthenticated(): boolean {
+    console.warn('here:' + this.accountService.isAuthenticated());
+    console.warn('reloadCount:' + this.reloadCount);
+    if (this.accountService.isAuthenticated() === true && this.reloadCount === 0) {
+      if (window.localStorage) {
+        if (!localStorage.getItem('firstLoad')) {
+          localStorage['firstLoad'] = true;
+          window.location.reload();
+        } else localStorage.removeItem('firstLoad');
+      }
+      console.warn('reload, count:' + this.reloadCount);
+      this.reloadCount++;
+    }
     return this.accountService.isAuthenticated();
   }
 
@@ -83,6 +98,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   protected onSuccess(data: ICatalogue[] | null, headers: HttpHeaders, page: number, navigate: boolean): void {
+    console.warn('onSuccess');
     this.totalItems = Number(headers.get('X-Total-Count'));
     this.page = page;
     this.ngbPaginationPage = this.page;
@@ -102,6 +118,22 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   protected onError(): void {
     this.ngbPaginationPage = this.page ?? 1;
+  }
+
+  loadPage(page?: number, dontNavigate?: boolean): void {
+    console.warn('loadPage');
+    const pageToLoad: number = page || this.page || 1;
+
+    this.catalogueService
+      .query({
+        page: pageToLoad - 1,
+        size: this.itemsPerPage,
+        sort: this.sort(),
+      })
+      .subscribe(
+        (res: HttpResponse<ICatalogue[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
+        () => this.onError()
+      );
   }
 
   //  personalise(): void {

@@ -67,14 +67,14 @@
 				    			<div *ngSwitchCase="''">
 				    				<ul class="arrangeInColumns">
 						    			<li *ngFor="let catalogue of catalogues ;trackBy: trackId">
-<!-- 								    		<div class="catElement" *ngIf="catalogue?.sessionDt > currentDt"> -->
+<!-- 					    					<div class="catElement" *ngIf="catalogue.sessionDt > currentDt"> -->
 												<div class="catElement">
 											    <a [routerLink]="['/catalogue', catalogue.id, 'view']">
 												    <img src="../../../../content/images/sam-moqadam-GC0eSwdO_HM-unsplash.jpg" alt="gym class" width="200"><br>
 												    {{ catalogue.description }}<br>
 												    {{ catalogue.sessionDt | date:'fullDate' }}<br>
 											    </a>
-									    	</div>
+								    		</div>
 								    	</li>
 								    </ul>
 				    			</div>
